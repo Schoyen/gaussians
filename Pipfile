@@ -11,6 +11,7 @@ scipy = "*"
 matplotlib = "*"
 jupyter = "*"
 black = "*"
+nb-black = "*"
 
 [requires]
 python_version = "3.7"
