@@ -12,6 +12,7 @@ matplotlib = "*"
 jupyter = "*"
 black = "*"
 nb-black = "*"
+numba = "*"
 
 [requires]
 python_version = "3.7"
