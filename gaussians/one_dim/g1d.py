@@ -1,4 +1,5 @@
 import numpy as np
+from .overlap import OverlapDist
 
 
 class G1D:
@@ -18,7 +19,21 @@ class G1D:
         self.a = a
         self.A = A
 
-    def __call__(self, x):
+        norm = 0
+
+        if i >= 0:
+            norm = 1 / self.compute_norm()
+
+        self.norm = norm
+
+    def compute_norm(self):
+        omega_ii = OverlapDist(self, self)
+
+        return np.sqrt(
+            omega_ii.E(self.i, self.i, 0) * np.sqrt(np.pi / omega_ii.p)
+        )
+
+    def __call__(self, x, with_norm=False):
         r"""
 
         Parameters
@@ -41,5 +56,6 @@ class G1D:
         True
         """
         x_A = x - self.A
+        norm = self.norm if with_norm else 1
 
-        return x_A ** self.i * np.exp(-self.a * x_A ** 2)
+        return norm * x_A ** self.i * np.exp(-self.a * x_A ** 2)
