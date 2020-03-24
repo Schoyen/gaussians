@@ -36,8 +36,7 @@ class OverlapDist:
                 + self.mu * self.X_AB / self.G_j.a * self.E(i, j - 1, t)
                 + (t + 1) * self.E(i, j - 1, t + 1)
             )
-
-        elif j == 0:
+        else:
             self.coefficients[i, j, t] = (
                 1 / (2 * self.p) * self.E(i - 1, j, t - 1)
                 - self.mu * self.X_AB / self.G_i.a * self.E(i - 1, j, t)
@@ -48,11 +47,55 @@ class OverlapDist:
 
 
 def overlap(G_i, G_j):
-    r"""
+    r"""Function computing the overlap between two one-dimensional primitive
+    GTO's. This is given by
+
+    .. math:: s^{i}_{j} = \langle G_i(a, A) \rvert G_j(b, B) \rangle
+        = E^{ij}_{0} \sqrt{\frac{\pi}{p}},
+
+    where :math:`p = a + b` as the total exponent of the Gaussians, :math:`A`
+    and :math:`B` are the centers of the GTO's, and :math:`E^{ij}_{0}` are the
+    Hermite expansion coefficients.
+
+    >>> import numpy as np
     >>> from gaussians.one_dim.g1d import G1D
     >>> G_0 = G1D(0, 1, 0)
-    >>> overlap(G_0, G_0)
+    >>> overlap(G_0, G_0) # doctest.ELLIPSIS
+    0.99999999...
+    >>> G_1 = G1D(1, 1, 0)
+    >>> overlap(G_1, G_1) # doctest.ELLIPSIS
+    0.99999999...
     """
     omega_ij = OverlapDist(G_i, G_j)
 
-    return omega_ij.E(G_i.i, G_j.i, 0) * np.sqrt(np.pi / omega_ij.p)
+    return (
+        G_i.norm
+        * G_j.norm
+        * omega_ij.E(G_i.i, G_j.i, 0)
+        * np.sqrt(np.pi / omega_ij.p)
+    )
+
+
+def construct_overlap_matrix(gaussians):
+    r"""
+
+    >>> from gaussians.one_dim.g1d import G1D
+    >>> s = construct_overlap_matrix([G1D(0, 2, -4), G1D(0, 2, 4)])
+    >>> s.shape
+    (2, 2)
+    >>> abs(s[0, 0] - s[1, 1]) < 1e-12
+    True
+    >>> abs(s[0, 1] - s[1, 0]) < 1e-12
+    True
+    >>> abs(s[0, 1]) < 1e-12
+    True
+    """
+
+    l = len(gaussians)
+    s = np.zeros((l, l))
+
+    for i, G_i in enumerate(gaussians):
+        for j, G_j in enumerate(gaussians):
+            s[i, j] = overlap(G_i, G_j)
+
+    return s
