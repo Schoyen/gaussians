@@ -1,5 +1,5 @@
 import numpy as np
-from .overlap import OverlapDist
+from scipy.special import factorial2
 
 
 class G1D:
@@ -27,10 +27,10 @@ class G1D:
         self.norm = norm
 
     def compute_norm(self):
-        omega_ii = OverlapDist(self, self)
-
         return np.sqrt(
-            omega_ii.E(self.i, self.i, 0) * np.sqrt(np.pi / omega_ii.p)
+            factorial2(2 * self.i - 1, exact=True)
+            / (4 * self.a) ** self.i
+            * np.sqrt(np.pi / (2 * self.a))
         )
 
     def __call__(self, x, with_norm=False):
