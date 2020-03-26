@@ -65,6 +65,9 @@ def overlap(G_i, G_j):
     >>> G_1 = G1D(1, 1, 0)
     >>> overlap(G_1, G_1) # doctest.ELLIPSIS
     0.99999999...
+    >>> G_4 = G1D(4, 2, 1)
+    >>> overlap(G_4, G_4) # doctest.ELLIPSIS
+    1.0
     """
     omega_ij = OverlapDist(G_i, G_j)
 
