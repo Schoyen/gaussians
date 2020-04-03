@@ -14,6 +14,7 @@ black = "*"
 nb-black = "*"
 numba = "*"
 pytest = "*"
+numba-scipy = {editable = true,git = "https://github.com/person142/numba-scipy.git",ref = "pin-scipy"}
 
 [requires]
 python_version = "3.7"
