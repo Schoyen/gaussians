@@ -20,6 +20,7 @@ class G2D:
     def __call__(
         self, x: np.ndarray, y: np.ndarray, with_norm=False
     ) -> np.ndarray:
+
         return self.G_x(x, with_norm=with_norm) * self.G_y(
             y, with_norm=with_norm
         )
