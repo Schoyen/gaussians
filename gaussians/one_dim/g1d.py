@@ -14,7 +14,9 @@ class G1D:
         Center of Gaussian.
     """
 
-    def __init__(self, i, a, A=0):
+    def __init__(self, i: int, a: float, A=0):
+        assert i >= 0
+
         self.i = i
         self.a = a
         self.A = A
@@ -26,14 +28,14 @@ class G1D:
 
         self.norm = norm
 
-    def compute_norm(self):
+    def compute_norm(self) -> float:
         return np.sqrt(
             factorial2(2 * self.i - 1, exact=True)
             / (4 * self.a) ** self.i
             * np.sqrt(np.pi / (2 * self.a))
         )
 
-    def __call__(self, x, with_norm=False):
+    def __call__(self, x: np.ndarray, with_norm=False) -> np.ndarray:
         r"""
 
         Parameters
@@ -50,6 +52,10 @@ class G1D:
         >>> x = np.linspace(-2, 2, 101)
         >>> a = 1
         >>> A = -0.5
+        >>> G_0 = G1D(0, a, A)
+        >>> G_1 = G1D(1, a, A)
+        >>> np.allclose(G_0(x) * (x - A), G_1(x))
+        True
         >>> G_2 = G1D(2, a, A)
         >>> G_3 = G1D(3, a, A)
         >>> np.allclose(G_2(x) * (x - A), G_3(x))
