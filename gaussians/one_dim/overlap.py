@@ -17,8 +17,7 @@ class OverlapDist:
 
         self.K_AB = np.exp(-self.mu * self.X_AB ** 2)
 
-        self.coefficients = dict()
-        self.coefficients[0, 0, 0] = self.K_AB
+        self.coefficients = {(0, 0, 0): self.K_AB}
 
     def __call__(self, x):
         return self.G_i(x) * self.G_j(x)
