@@ -4,7 +4,7 @@ import numpy as np
 
 @numba.njit(cache=True, fastmath=True, nogil=True)
 def M(
-    e: int, t: int, t: int, a: float, A: float, b: float, B: float, C: float
+    e: int, t: int, a: float, A: float, b: float, B: float, C: float
 ) -> float:
     r"""Function computing Hermite multipole moment integrals. That is,
 
