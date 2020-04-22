@@ -1,22 +1,32 @@
 import numpy as np
 
 from .g1d import G1D
-from .overlap import overlap
 
 
-def kinetic(G_i, G_j):
+# def kinetic(G_i, G_j):
+#
+#     return (
+#         -2 * G_j.a ** 2 * overlap(G_i, G1D(G_j.i + 2, G_j.a, G_j.A))
+#         + G_j.a * (2 * G_j.i + 1) * overlap(G_i, G_j)
+#         - 0.5 * G_j.i * (G_j.i - 1) * overlap(G_i, G1D(G_j.i - 2, G_j.a, G_j.A))
+#     )
 
+
+def kinetic(b, j, s_left, s_center, s_right):
     return (
-        -2 * G_j.a ** 2 * overlap(G_i, G1D(G_j.i + 2, G_j.a, G_j.A))
-        + G_j.a * (2 * G_j.i + 1) * overlap(G_i, G_j)
-        - 0.5 * G_j.i * (G_j.i - 1) * overlap(G_i, G1D(G_j.i - 2, G_j.a, G_j.A))
+        -2 * b ** 2 * s_right
+        + b * (2 * j + 1) * s_center
+        - 0.5 * j * (j - 1) * s_left
     )
 
 
-def construct_kinetic_matrix(gaussians):
+def construct_kinetic_matrix(gaussians, s):
     r"""
     >>> from gaussians.one_dim.g1d import G1D
-    >>> t = construct_kinetic_matrix([G1D(0, 2, -4), G1D(0, 2, 4)])
+    >>> from gaussians.one_dim.overlap import construct_overlap_matrix
+    >>> gaussians = [G1D(0, 2, -4), G1D(0, 2, 4)]
+    >>> s = construct_overlap_matrix(gaussians)
+    >>> t = construct_kinetic_matrix(gaussians, s)
     >>> t.shape
     (2, 2)
     >>> abs(t[0, 0] - t[1, 1]) < 1e-12
@@ -32,6 +42,14 @@ def construct_kinetic_matrix(gaussians):
 
     for i, G_i in enumerate(gaussians):
         for j, G_j in enumerate(gaussians):
-            t[i, j] = kinetic(G_i, G_j)
+            b = G_j.a
+            j = G_j.i
+
+            s_left = 0 if j < 2 else s[i, j - 2]
+            s_right = 0 if j > len(gaussians) - 3 else s[i, j + 2]
+
+            t[i, j] = (
+                G_i.norm * G_j.norm * kinetic(b, j, s_left, s[i, j], s_right)
+            )
 
     return t
