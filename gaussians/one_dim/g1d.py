@@ -21,12 +21,7 @@ class G1D:
         self.a = a
         self.A = A
 
-        norm = 0
-
-        if i >= 0:
-            norm = 1 / self.compute_norm()
-
-        self.norm = norm
+        self.norm = 1 / self.compute_norm()
 
     def compute_norm(self) -> float:
         return np.sqrt(
