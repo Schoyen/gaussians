@@ -15,13 +15,14 @@ class G1D:
     """
 
     def __init__(self, i: int, a: float, A=0):
-        assert i >= 0
-
         self.i = i
         self.a = a
         self.A = A
 
-        self.norm = 1 / self.compute_norm()
+        # We allow negative values for i, but return 0 if that is the case.
+        # This introduces a slight programming convenience when computing
+        # recurrence relations.
+        self.norm = 1 / self.compute_norm() if i >= 0 else 0
 
     def compute_norm(self) -> float:
         return np.sqrt(
