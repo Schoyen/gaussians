@@ -3,15 +3,6 @@ import numpy as np
 from .g1d import G1D
 
 
-# def kinetic(G_i, G_j):
-#
-#     return (
-#         -2 * G_j.a ** 2 * overlap(G_i, G1D(G_j.i + 2, G_j.a, G_j.A))
-#         + G_j.a * (2 * G_j.i + 1) * overlap(G_i, G_j)
-#         - 0.5 * G_j.i * (G_j.i - 1) * overlap(G_i, G1D(G_j.i - 2, G_j.a, G_j.A))
-#     )
-
-
 def kinetic(b, j, s_left, s_center, s_right):
     return (
         -2 * b ** 2 * s_right
