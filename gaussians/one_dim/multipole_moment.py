@@ -5,6 +5,39 @@ from .g1d import G1D
 from .od1d import OD1D
 
 
+def construct_multipole_moment_matrix(
+    e: int, C: float, gaussians: list
+) -> np.ndarray:
+    r"""Function constructing all multipole moment matrix elements for a
+    specific order ``e``, center ``C``, and a given list of Gaussians.
+
+    >>> from gaussians.one_dim.g1d import G1D
+    >>> s = construct_multipole_moment_matrix(0, 0, [G1D(0, 2, -4), G1D(0, 2, 4)])
+    >>> s.shape
+    (2, 2)
+    >>> abs(s[0, 0] - s[1, 1]) < 1e-12
+    True
+    >>> abs(s[0, 1] - s[1, 0]) < 1e-12
+    True
+    >>> abs(s[0, 1]) < 1e-12
+    True
+    """
+
+    l = len(gaussians)
+    s_e = np.zeros((l, l))
+
+    for i in range(l):
+        G_i = gaussians[i]
+        for j in range(i + 1, l):
+            G_j = gaussians[j]
+
+            val = S(e, C, G_i, G_j)
+            s_e[i, j] = val
+            s_e[j, i] = val
+
+    return s_e
+
+
 def S(e: int, C: float, G_i: G1D, G_j: G1D) -> float:
     r"""Function computing the one-dimensional multipole moment integral
 
