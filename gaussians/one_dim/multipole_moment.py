@@ -32,12 +32,10 @@ def construct_multipole_moment_matrix(
 
     for i in range(l):
         G_i = gaussians[i]
-        for j in range(i + 1, l):
+        for j in range(l):
             G_j = gaussians[j]
 
-            val = S(e, C, G_i, G_j)
-            s_e[i, j] = val
-            s_e[j, i] = val
+            s_e[i, j] = G_i.norm * G_j.norm * S(e, C, G_i, G_j)
 
     return s_e
 
@@ -55,13 +53,13 @@ def S(e: int, C: float, G_i: G1D, G_j: G1D) -> float:
     >>> import numpy as np
     >>> from gaussians import G1D
     >>> G_0 = G1D(0, 1, 0)
-    >>> abs(S(0, 0, G_0, G_0) - 1) < 1e-14
+    >>> abs(G_0.norm ** 2 * S(0, 0, G_0, G_0) - 1) < 1e-14
     True
     >>> G_1 = G1D(1, 1, 0)
-    >>> abs(S(0, 0, G_1, G_1) - 1) < 1e-14
+    >>> abs(G_1.norm ** 2 * S(0, 0, G_1, G_1) - 1) < 1e-14
     True
     >>> G_4 = G1D(4, 2, 1)
-    >>> abs(S(0, 0, G_4, G_4) - 1) < 1e-14
+    >>> abs(G_4.norm ** 2 * S(0, 0, G_4, G_4) - 1) < 1e-14
     True
     """
 
@@ -84,7 +82,7 @@ def S_od(e: int, C: float, O_ij: OD1D) -> float:
     >>> abs(
     ...     S_1_43
     ...     - (
-    ...         O_43.norm
+    ...         1 # O_43.norm
     ...         * (
     ...             O_43.E(1)
     ...             + (O_43.P - C) * O_43.E(0)
@@ -99,7 +97,7 @@ def S_od(e: int, C: float, O_ij: OD1D) -> float:
     for t in range(min(O_ij.i + O_ij.j, e) + 1):
         val += O_ij.E(t) * M(e, t, O_ij.p, O_ij.P, C)
 
-    return val * O_ij.norm
+    return val
 
 
 @numba.njit(cache=True, fastmath=True, nogil=True)
