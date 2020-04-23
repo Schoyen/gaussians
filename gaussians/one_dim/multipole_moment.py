@@ -21,6 +21,10 @@ def construct_multipole_moment_matrix(
     True
     >>> abs(s[0, 1]) < 1e-12
     True
+    >>> abs(s[0, 0] - 1) < 1e-12
+    True
+    >>> abs(s[1, 1] - 1) < 1e-12
+    True
     """
 
     l = len(gaussians)
