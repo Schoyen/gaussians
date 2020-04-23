@@ -8,6 +8,6 @@ setup(
         "numpy",
         "scipy",
         "numba",
-        "numba-scipy @ git+ssh://git@github.com/person142/numba-scipy.git#egg=numba-scipy-pin",
+        "numba-scipy @ git+https://@github.com/person142/numba-scipy.git#egg=numba-scipy-pin",
     ],
 )
