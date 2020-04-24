@@ -18,7 +18,7 @@ class OD1D:
         self.X_PA = self.P - self.G_i.A
         self.X_PB = self.P - self.G_j.A
         # Reduced exponent
-        self.mu = self.G_i.a * self.G_j.a / (self.G_i.a + self.G_j.a)
+        self.mu = self.G_i.a * self.G_j.a / self.p
 
         self.K_AB = np.exp(-self.mu * self.X_AB ** 2)
 
@@ -38,11 +38,13 @@ class OD1D:
         r"""This function is not symmetric with respect to interchange
         of ``i`` and ``j``! That is, :math:`E^{ij}_{t} \neq E^{ji}_{t}` in
         general.
+
+        Verify this...
         """
         if (i, j, t) in self.coefficients:
             return self.coefficients[i, j, t]
 
-        if t < 0 or t > i + j or i < 0 or j < 0:
+        if t < 0 or t > (i + j) or i < 0 or j < 0:
             return 0
 
         if i == 0:
