@@ -30,11 +30,8 @@ def construct_multipole_moment_matrix(
     l = len(gaussians)
     s_e = np.zeros((l, l))
 
-    for i in range(l):
-        G_i = gaussians[i]
-        for j in range(l):
-            G_j = gaussians[j]
-
+    for i, G_i in enumerate(gaussians):
+        for j, G_j in enumerate(gaussians):
             s_e[i, j] = G_i.norm * G_j.norm * S(e, C, G_i, G_j)
 
     return s_e
