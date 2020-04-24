@@ -7,7 +7,7 @@ class OD1D:
         self.G_j = G_j
 
         self.i = self.G_i.i
-        self.j = self.G_i.i
+        self.j = self.G_j.i
 
         # Total exponent
         self.p = self.G_i.a + self.G_j.a
