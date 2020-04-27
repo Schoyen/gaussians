@@ -11,8 +11,10 @@ class OD2D:
         self.O_x = OD1D(self.G_a.G_x, self.G_b.G_x)
         self.O_y = OD1D(self.G_a.G_y, self.G_b.G_y)
 
-    def __call__(self, x, y):
-        return self.O_x(x) * self.O_y(x)
+    def __call__(self, x, y, with_norm=False):
+        return self.O_x(x, with_norm=with_norm) * self.O_y(
+            x, with_norm=with_norm
+        )
 
     def E(self, t, u):
         return self.O_x.E(t) * self.O_y.E(u)
