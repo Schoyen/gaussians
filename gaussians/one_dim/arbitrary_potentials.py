@@ -10,14 +10,18 @@ def construct_arbitrary_potential_elements(
 
     v = np.zeros((l, l), dtype=pot_grid.dtype)
 
-    # TODO: Check symmetry
-    for i, G_i in enumerate(gaussians):
-        G_i_grid = G_i(grid, with_norm=True)
-        for j, G_j in enumerate(gaussians):
-            G_j_grid = G_j(grid, with_norm=True)
+    for i in range(l):
+        G_i_grid = gaussians[i](grid, with_norm=True)
 
-            v[i, j] = scipy.integrate.simps(
-                G_i_grid * pot_grid * G_j_grid, grid
-            )
+        val = scipy.integrate.simps(G_i_grid * pot_grid * G_i_grid, grid)
+
+        v[i, i] = val
+
+        for j in range(i + 1, l):
+            G_j_grid = gaussians[j](grid, with_norm=True)
+
+            val = scipy.integrate.simps(G_i_grid * pot_grid * G_j_grid, grid)
+            v[i, j] = val
+            v[j, i] = np.conjugate(val)
 
     return v
