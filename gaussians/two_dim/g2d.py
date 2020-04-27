@@ -12,7 +12,7 @@ class G2D:
         self.A = A
 
         self.G_x = G1D(self.alpha[0], a, self.A[0])
-        self.G_y = G1D(self.alpha[1], a, self.A[0])
+        self.G_y = G1D(self.alpha[1], a, self.A[1])
 
     def compute_norm(self) -> float:
         return self.G_x.norm * self.G_y.norm
