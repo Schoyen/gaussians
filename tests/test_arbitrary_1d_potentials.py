@@ -1,8 +1,8 @@
 import numpy as np
 
-from gaussians import (
+from gaussians import G1D
+from gaussians.one_dim import (
     construct_arbitrary_potential_elements,
-    G1D,
     construct_multipole_moment_matrix_elements,
 )
 

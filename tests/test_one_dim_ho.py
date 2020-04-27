@@ -3,10 +3,10 @@ import pytest
 import numpy as np
 import scipy.linalg
 
-from gaussians import (
+from gaussians import G1D
+from gaussians.one_dim import (
     construct_differential_matrix_elements,
     construct_multipole_moment_matrix_elements,
-    G1D,
 )
 
 
