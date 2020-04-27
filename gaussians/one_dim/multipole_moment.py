@@ -5,14 +5,14 @@ from .g1d import G1D
 from .od1d import OD1D
 
 
-def construct_multipole_moment_matrix(
+def construct_multipole_moment_matrix_elements(
     e: int, C: float, gaussians: list
 ) -> np.ndarray:
     r"""Function constructing all multipole moment matrix elements for a
     specific order ``e``, center ``C``, and a given list of Gaussians.
 
     >>> from gaussians.one_dim.g1d import G1D
-    >>> s = construct_multipole_moment_matrix(0, 0, [G1D(0, 2, -4), G1D(0, 2, 4)])
+    >>> s = construct_multipole_moment_matrix_elements(0, 0, [G1D(0, 2, -4), G1D(0, 2, 4)])
     >>> s.shape
     (2, 2)
     >>> abs(s[0, 0] - s[1, 1]) < 1e-12

@@ -1,7 +1,9 @@
 import numpy as np
 
 from gaussians import G1D, OD1D
-from gaussians.one_dim.multipole_moment import construct_multipole_moment_matrix
+from gaussians.one_dim.multipole_moment import (
+    construct_multipole_moment_matrix_elements,
+)
 
 from helpers.utils import overlap as j_overlap, E
 
@@ -54,7 +56,7 @@ def construct_dipole_moment_matrix(gaussians):
 def test_overlap():
     gaussians = [G1D(0, 1, 0.5), G1D(0, 0.5, 0), G1D(1, 1, 0), G1D(2, 1, 0)]
 
-    s = construct_multipole_moment_matrix(0, 0, gaussians)
+    s = construct_multipole_moment_matrix_elements(0, 0, gaussians)
     s_2 = construct_overlap_matrix(gaussians)
 
     x = np.linspace(-10, 10, 1001)
@@ -82,7 +84,7 @@ def test_overlap():
 def test_dipole_moment():
     gaussians = [G1D(0, 2, -4), G1D(0, 2, 4), G1D(1, 1, 0), G1D(2, 1, 0)]
 
-    d = construct_multipole_moment_matrix(1, 1, gaussians)
+    d = construct_multipole_moment_matrix_elements(1, 1, gaussians)
     d_2 = construct_dipole_moment_matrix(gaussians)
 
     np.testing.assert_allclose(d, d_2)
