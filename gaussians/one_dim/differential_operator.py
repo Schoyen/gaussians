@@ -10,9 +10,16 @@ def construct_differential_matrix_elements(
     l = len(gaussians)
     d_e = np.zeros((l, l))
 
-    for i, G_i in enumerate(gaussians):
-        for j, G_j in enumerate(gaussians):
-            d_e[i, j] = G_i.norm * G_j.norm * D(e, G_i, G_j)
+    for i in range(l):
+        G_i = gaussians[i]
+        d_e[i, i] = G_i.norm ** 2 * D(e, G_i, G_i)
+
+        for j in range(i + 1, l):
+            G_j = gaussians[j]
+            val = G_i.norm * G_j.norm * D(e, G_i, G_j)
+
+            d_e[i, j] = val
+            d_e[j, i] = val
 
     return d_e
 
