@@ -1,4 +1,5 @@
 import numpy as np
+import scipy.sparse
 
 
 def E(i, j, t, Qx, a, b):
@@ -54,3 +55,39 @@ def overlap(a, l1, A, b, l2, B):
     """
     S1 = E(l1, l2, 0, A - B, a, b)  # X
     return S1 * np.power(np.pi / (a + b), 0.5)
+
+
+def two_dim_grid_solver(potential):
+    N = 50
+    Lx = 5
+    x = np.linspace(-Lx, Lx, N + 2)
+    y = np.linspace(-Lx, Lx, N + 2)
+    V = np.zeros((N, N))
+    delta_x = x[1] - x[0]
+    w = 1
+    R = 1.5
+
+    X, Y = np.meshgrid(x[1 : N + 1], y[1 : N + 1])
+    V = potential(X, Y)
+    V = V.T
+
+    n = N ** 2
+    a = 0.5
+
+    h_diag = a * 4 * np.ones(n) / (delta_x ** 2) + V.flatten("F")
+    h_off = -a * np.ones(n - 1) / (delta_x ** 2)
+    h_off_off = -a * np.ones(n - N) / (delta_x ** 2)
+
+    k = 1
+    for i in range(1, n - 1):
+        if i % N == 0:
+            h_off[i - 1] = 0
+
+    h = scipy.sparse.diags(
+        [h_diag, h_off, h_off, h_off_off, h_off_off], offsets=[0, -1, 1, -N, N]
+    )
+
+    h = h.todense()
+    epsilon, phi = np.linalg.eigh(h)
+
+    return epsilon, phi, X, Y

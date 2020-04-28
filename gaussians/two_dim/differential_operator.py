@@ -20,4 +20,4 @@ def construct_differential_matrix_elements(
         x_gaussians.append(G.G_x)
         y_gaussians.append(G.G_y)
 
-    return dm_1d(e[0], x_gaussians) * dm_1d(e[1], x_gaussians)
+    return dm_1d(e[0], x_gaussians) * dm_1d(e[1], y_gaussians)
