@@ -5,6 +5,10 @@ from .g1d import G1D
 from .od1d import OD1D
 
 
+def construct_overlap_matrix_elements(gaussians: list):
+    return construct_multipole_moment_matrix_elements(0, 0, gaussians)
+
+
 def construct_multipole_moment_matrix_elements(
     e: int, C: float, gaussians: list
 ) -> np.ndarray:

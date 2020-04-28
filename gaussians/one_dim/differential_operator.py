@@ -4,6 +4,10 @@ from .g1d import G1D
 from .multipole_moment import S
 
 
+def construct_kinetic_matrix_elements(gaussians: list):
+    return -0.5 * construct_differential_matrix_elements(2, gaussians)
+
+
 def construct_differential_matrix_elements(
     e: int, gaussians: list
 ) -> np.ndarray:
