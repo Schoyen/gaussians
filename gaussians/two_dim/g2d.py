@@ -9,7 +9,7 @@ class G2D:
 
         self.alpha = alpha
         self.a = a
-        self.A = A
+        self.A = np.asarray(A)
 
         self.G_x = G1D(self.alpha[0], a, self.A[0])
         self.G_y = G1D(self.alpha[1], a, self.A[1])

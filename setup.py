@@ -6,8 +6,8 @@ setup(
     packages=find_packages(),
     install_requires=[
         "numpy",
-        "scipy",
+        "scipy==1.4.1",
         "numba",
-        "numba-scipy @ git+https://@github.com/person142/numba-scipy.git#egg=numba-scipy-pin",
+        "numba-scipy @ git+https://github.com/person142/numba-scipy.git#egg=numba-scipy",
     ],
 )

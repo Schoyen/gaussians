@@ -44,9 +44,6 @@ def test_two_dim_ho():
 
     n = 10
 
-    X = tdho.R * np.cos(tdho.T)
-    Y = tdho.R * np.sin(tdho.T)
-
     epsilon = np.diag(tdho.h)
 
     np.testing.assert_allclose(epsilon[:n], epsilon_2[:n], atol=1e-3)
@@ -61,6 +58,9 @@ def test_two_dim_ho():
     # circular hats.
 
     # import matplotlib.pyplot as plt
+
+    # X = tdho.R * np.cos(tdho.T)
+    # Y = tdho.R * np.sin(tdho.T)
 
     # for i in range(n):
     #     plt.figure()
