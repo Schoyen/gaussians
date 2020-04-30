@@ -16,9 +16,7 @@ def test_two_dim_ho():
     omega = 1
     l = 10
 
-    gaussians = [
-        G2D((i, j), omega / np.sqrt(2)) for i in range(l) for j in range(l)
-    ]
+    gaussians = [G2D((i, j), omega / 2) for i in range(l) for j in range(l)]
 
     # potential = lambda x, y, omega=omega: 0.5 * omega ** 2 * (x ** 2 + y ** 2)
     # epsilon, phi, X, Y = two_dim_grid_solver(potential)
@@ -46,9 +44,9 @@ def test_two_dim_ho():
 
     epsilon = np.diag(tdho.h)
 
-    np.testing.assert_allclose(epsilon[:n], epsilon_2[:n], atol=1e-3)
+    np.testing.assert_allclose(epsilon[:n], epsilon_2[:n], atol=1e-12)
     h = np.einsum("ip, ij, jq -> pq", C.conj(), h, C, optimize=True)
-    np.testing.assert_allclose(tdho.h[:n, :n], h[:n, :n], atol=1e-3)
+    np.testing.assert_allclose(tdho.h[:n, :n], h[:n, :n], atol=1e-12)
 
     # Testing the single-paricle states will be hard as the grid solver
     # does not prefer a specific direction for the basis functions thus making

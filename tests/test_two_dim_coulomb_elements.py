@@ -24,9 +24,7 @@ def test_two_dim_ho():
     omega = 1
     l = 2
 
-    gaussians = [
-        G2D((i, j), omega / np.sqrt(2)) for i in range(l) for j in range(l)
-    ]
+    gaussians = [G2D((i, j), omega / 2) for i in range(l) for j in range(l)]
 
     tdho = TwoDimensionalHarmonicOscillator(16, 5, 201, omega=omega)
 
@@ -56,9 +54,9 @@ def test_two_dim_ho():
 
     epsilon = np.diag(tdho.h)
 
-    np.testing.assert_allclose(epsilon[:n], epsilon_2[:n], atol=2e-1)
+    np.testing.assert_allclose(epsilon[:n], epsilon_2[:n], atol=1e-12)
     h_trans = tdho.transform_one_body_elements(h, C, np)
-    np.testing.assert_allclose(tdho.h[:n, :n], h_trans[:n, :n], atol=2e-1)
+    np.testing.assert_allclose(tdho.h[:n, :n], h_trans[:n, :n], atol=1e-12)
 
     u_trans = tdho.transform_two_body_elements(u, C, np)
 
