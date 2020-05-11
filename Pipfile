@@ -13,6 +13,7 @@ nb-black = "*"
 pytest = "*"
 quantum-systems = {editable = true,git = "https://github.com/Schoyen/quantum-systems.git"}
 hartree-fock = {editable = true,git = "ssh://git@github.com/Schoyen/hartree-fock.git"}
+setuptools-rust = "*"
 
 [requires]
 python_version = "3.7"

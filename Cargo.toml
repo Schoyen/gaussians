@@ -1,0 +1,12 @@
+[package]
+name = "gaussians"
+version = "0.0.1"
+edition = "2018"
+
+[lib]
+name = "gaussian_lib"
+crate-type = ["cdylib"]
+
+[dependencies.pyo3]
+version = "*"
+features = ["extension-module"]
