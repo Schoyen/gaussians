@@ -4,7 +4,7 @@ python:
   - '3.7'
 
 before_install:
-  - curl https://sh.rustup.rs -sSf | sh
+  - yes | curl https://sh.rustup.rs -sSf | sh
 
 install:
     - pip install pipenv
