@@ -2,8 +2,9 @@ language: python
 python:
   - '3.6'
   - '3.7'
-rust:
-  - nightly
+
+before_script:
+  - curl -s https://static.rust-lang.org/rustup.sh | sh -s -- --channel=nightly
 
 install:
     - pip install pipenv
