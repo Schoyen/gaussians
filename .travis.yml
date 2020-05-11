@@ -1,12 +1,9 @@
-matrix:
-    include:
-        - language: python
-          python:
-              - '3.6'
-              - '3.7'
-        - language: rust
-          rust:
-              - nightly
+- language: python
+  python:
+      - '3.6'
+      - '3.7'
+  rust:
+      - nightly
 
 install:
 - pip install pipenv
