@@ -11,7 +11,7 @@ matrix:
 install:
 - pip install pipenv
 - pipenv install --skip-lock
-- pip install . -U
+- python setup.py install
 script:
 - py.test
 - black --check
