@@ -4,7 +4,7 @@ python:
   - '3.7'
 
 before_install:
-  - curl -s https://static.rust-lang.org/rustup.sh | sh -s -- --channel=nightly
+  - curl https://sh.rustup.rs -sSf | sh
 
 install:
     - pip install pipenv
