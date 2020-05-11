@@ -1,7 +1,13 @@
-language: python
-python:
-- '3.6'
-- '3.7'
+matrix:
+    include:
+        - language: python
+          python:
+              - '3.6'
+              - '3.7'
+        - language: rust
+          rust:
+              - nightly
+
 install:
 - pip install pipenv
 - pipenv install --skip-lock
