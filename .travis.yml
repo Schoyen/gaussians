@@ -6,9 +6,9 @@
       - nightly
 
 install:
-- pip install pipenv
-- pipenv install --skip-lock
-- python setup.py install
+    - pip install pipenv
+    - pipenv install --skip-lock
+    - python setup.py install
 script:
-- py.test
-- black --check
+    - py.test
+    - black --check
