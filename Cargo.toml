@@ -7,6 +7,10 @@ edition = "2018"
 name = "gaussian_lib"
 crate-type = ["cdylib"]
 
+[dependencies]
+numpy = "*"
+ndarray = "*"
+
 [dependencies.pyo3]
 version = "*"
 features = ["extension-module"]
