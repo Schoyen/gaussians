@@ -3,7 +3,7 @@ python:
   - '3.6'
   - '3.7'
 
-before_script:
+before_install:
   - curl -s https://static.rust-lang.org/rustup.sh | sh -s -- --channel=nightly
 
 install:
