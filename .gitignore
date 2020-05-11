@@ -130,3 +130,6 @@ dmypy.json
 
 # Vim swap
 *.swp
+
+# Cargo lock
+Cargo.lock
