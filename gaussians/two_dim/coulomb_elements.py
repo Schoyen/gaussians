@@ -43,9 +43,11 @@ def construct_coulomb_matrix_element(G_a, G_b, G_c, G_d):
     for t in range(O_ac.x_sum_lim + 1):
         for u in range(O_ac.y_sum_lim + 1):
             E_ac = O_ac.E(t, u)
+            # E_ac = (-1) ** (t + u) * O_ac.E(t, u)
             for tau in range(O_bd.x_sum_lim + 1):
                 for nu in range(O_bd.y_sum_lim + 1):
                     E_bd = (-1) ** (tau + nu) * O_bd.E(tau, nu)
+                    # E_bd = O_bd.E(tau, nu)
 
                     val += E_ac * E_bd * I_tilde(t + tau, u + nu, sigma, delta)
 
@@ -101,6 +103,33 @@ def _I_tilde(n, t, u, sigma, delta):
             + _I_tilde(n + 1, t - 2, u, sigma, delta)
         )
     )
+
+    # if u == 0:
+    #     return pre_factor * (
+    #         delta[0]
+    #         * (
+    #             _I_tilde(n_1, t - 1, u, sigma, delta)
+    #             + _I_tilde(n + 1, t - 1, u, sigma, delta)
+    #         )
+    #         - t
+    #         * (
+    #             _I_tilde(n_1, t - 2, u, sigma, delta)
+    #             + _I_tilde(n + 1, t - 2, u, sigma, delta)
+    #         )
+    #     )
+
+    # return pre_factor * (
+    #     delta[1]
+    #     * (
+    #         _I_tilde(n_1, t, u - 1, sigma, delta)
+    #         + _I_tilde(n + 1, t, u - 1, sigma, delta)
+    #     )
+    #     - u
+    #     * (
+    #         _I_tilde(n_1, t, u - 2, sigma, delta)
+    #         + _I_tilde(n + 1, t, u - 2, sigma, delta)
+    #     )
+    # )
 
 
 # @numba.njit(cache=True)
