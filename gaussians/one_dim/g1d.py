@@ -12,14 +12,17 @@ class G1D:
         Coefficient in exponent.
     A : float
         Center of Gaussian.
+    symbol: str
+        Symbol to use when printing the class. Default is ``x``.
     """
 
-    def __init__(self, i: int, a: float, A=0):
+    def __init__(self, i: int, a: float, A=0, symbol="x"):
         assert i >= 0
 
         self.i = i
         self.a = a
         self.A = A
+        self.symbol = symbol
 
         self.norm = 1 / self.compute_norm()
 
@@ -60,3 +63,9 @@ class G1D:
         norm = self.norm if with_norm else 1
 
         return norm * x_A ** self.i * np.exp(-self.a * x_A ** 2)
+
+    def __str__(self):
+        return (
+            f"({self.symbol} - {self.A}) ** {self.i} * exp(-{self.a} * "
+            + f"({self.symbol} - {self.A}) ** 2)"
+        )
