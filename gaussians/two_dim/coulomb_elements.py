@@ -73,43 +73,18 @@ def _I_tilde(n, t, u, sigma, delta):
     if n == 0:
         pre_factor *= 2
 
-        if t == 0:
-            return pre_factor * (
-                delta[1]
-                * (
-                    _I_tilde(0, t, u - 1, sigma, delta)
-                    + _I_tilde(1, t, u - 1, sigma, delta)
-                )
-                - u
-                * (
-                    _I_tilde(0, t, u - 2, sigma, delta)
-                    + _I_tilde(1, t, u - 2, sigma, delta)
-                )
-            )
-        else:
-            return pre_factor * (
-                delta[0]
-                * (
-                    _I_tilde(0, t - 1, u, sigma, delta)
-                    + _I_tilde(1, t - 1, u, sigma, delta)
-                )
-                - t
-                * (
-                    _I_tilde(0, t - 2, u, sigma, delta)
-                    + _I_tilde(1, t - 2, u, sigma, delta)
-                )
-            )
+    n_1 = n - 1 if n > 0 else 0
 
     if t == 0:
         return pre_factor * (
             delta[1]
             * (
-                _I_tilde(n - 1, t, u - 1, sigma, delta)
+                _I_tilde(n_1, t, u - 1, sigma, delta)
                 + _I_tilde(n + 1, t, u - 1, sigma, delta)
             )
             - u
             * (
-                _I_tilde(n - 1, t, u - 2, sigma, delta)
+                _I_tilde(n_1, t, u - 2, sigma, delta)
                 + _I_tilde(n + 1, t, u - 2, sigma, delta)
             )
         )
@@ -117,12 +92,12 @@ def _I_tilde(n, t, u, sigma, delta):
     return pre_factor * (
         delta[0]
         * (
-            _I_tilde(n - 1, t - 1, u, sigma, delta)
+            _I_tilde(n_1, t - 1, u, sigma, delta)
             + _I_tilde(n + 1, t - 1, u, sigma, delta)
         )
         - t
         * (
-            _I_tilde(n - 1, t - 2, u, sigma, delta)
+            _I_tilde(n_1, t - 2, u, sigma, delta)
             + _I_tilde(n + 1, t - 2, u, sigma, delta)
         )
     )
