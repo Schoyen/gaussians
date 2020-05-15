@@ -64,9 +64,6 @@ def _I_tilde(n, t, u, sigma, delta):
     if t < 0 or u < 0 or n < 0:
         return 0
 
-    if t + u > n:
-        return 0
-
     if t == u == 0:
         return extended_bessel(n, sigma, delta)
 
