@@ -81,7 +81,7 @@ def _I_tilde(n, t, u, sigma, delta):
                 _I_tilde(n_1, t, u - 1, sigma, delta)
                 + _I_tilde(n + 1, t, u - 1, sigma, delta)
             )
-            - u
+            - (u - 1)
             * (
                 _I_tilde(n_1, t, u - 2, sigma, delta)
                 + _I_tilde(n + 1, t, u - 2, sigma, delta)
@@ -94,7 +94,7 @@ def _I_tilde(n, t, u, sigma, delta):
             _I_tilde(n_1, t - 1, u, sigma, delta)
             + _I_tilde(n + 1, t - 1, u, sigma, delta)
         )
-        - t
+        - (t - 1)
         * (
             _I_tilde(n_1, t - 2, u, sigma, delta)
             + _I_tilde(n + 1, t - 2, u, sigma, delta)
