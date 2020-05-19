@@ -10,7 +10,8 @@ before_install:
 install:
     - pip install pipenv
     - pipenv install --skip-lock
-    - python setup.py install
+      # - python setup.py install
+    - pip install . -U
 script:
     - py.test
     - black --check
