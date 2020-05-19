@@ -61,7 +61,9 @@ def I_tilde(t, u, sigma, delta):
 
 # @numba.njit(cache=True)
 def _I_tilde(n, t, u, sigma, delta):
-    if t < 0 or u < 0 or n < 0:
+    assert n >= 0
+
+    if t < 0 or u < 0:
         return 0
 
     if t == u == 0:
