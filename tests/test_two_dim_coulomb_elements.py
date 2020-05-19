@@ -33,7 +33,7 @@ def test_two_dim_ho():
     l = 6
     n = 2
 
-    shell = l // 2
+    shell = l // 2 + l % 2
 
     gaussians = []
     for i in range(shell):
@@ -43,14 +43,12 @@ def test_two_dim_ho():
             if i != j:
                 gaussians.append(G2D((j, i), omega / 2))
 
-    tdho = GeneralOrbitalSystem(
-        n, TwoDimensionalHarmonicOscillator(6, 5, 201, omega=omega)
-    )
+    for gauss in gaussians:
+        print(gauss)
 
-    ghf_ho = GHF(tdho, verbose=True)
-    ghf_ho.compute_ground_state()
-    # ghf_ho = HartreeFock(tdho, verbose=True)
-    # ghf_ho.scf()
+    tdho = GeneralOrbitalSystem(
+        n, TwoDimensionalHarmonicOscillator(l, 5, 201, omega=omega)
+    )
 
     X = tdho._basis_set.R * np.cos(tdho._basis_set.T)
     Y = tdho._basis_set.R * np.sin(tdho._basis_set.T)
@@ -82,64 +80,134 @@ def test_two_dim_ho():
 
     gos = GeneralOrbitalSystem(n, gos)
 
+    # eps, C = scipy.linalg.eigh(gos.h, gos.s)
+    # print(eps)
+    # print(np.diag(tdho.h))
+    # print(C)
+    # import matplotlib.pyplot as plt
+    # plt.imshow(C)
+
+    # gos.change_basis(C)
+
+    # plt.show()
+    # wat
+    #
+
+    ghf_ho = GHF(tdho, verbose=True)
+    ghf_ho.compute_ground_state(tol=1e-8)
+    # ghf_ho = HartreeFock(tdho, verbose=True)
+    # ghf_ho.scf()
+
     ghf_gauss = GHF(gos, verbose=True)
-    ghf_gauss.compute_ground_state()
+    ghf_gauss.compute_ground_state(tol=1e-8)
     # ghf_gauss = HartreeFock(gos, verbose=True)
     # ghf_gauss.scf()
 
     print(ghf_ho.epsilon)
     print(ghf_gauss.epsilon)
-    assert abs(ghf_ho.compute_energy() - ghf_gauss.compute_energy()) < 1e-12
+    assert abs(ghf_ho.compute_energy() - ghf_gauss.compute_energy()) < 1e-10
     # assert abs(ghf_ho.e_hf - ghf_gauss.e_hf) < 1e-12
 
-    import matplotlib.pyplot as plt
+    # import matplotlib.pyplot as plt
 
-    for i in range(0, tdho.l, 2):
-        plt.figure()
-        plt.title(f"Grid: {i}")
-        plt.contourf(X, Y, np.abs(tdho.spf[i]) ** 2)
+    # u_tdho = tdho.u.reshape(tdho.l ** 2, tdho.l ** 2)
+    # u_gauss = gos.u.reshape(gos.l ** 2, gos.l ** 2)
 
-    for i in range(0, tdho.l, 2):
-        plt.figure()
-        plt.title(f"Analytic {i}")
-        plt.contourf(X, Y, np.abs(gos.spf[i]) ** 2)
+    # plt.figure()
+    # plt.imshow(u_tdho)
+    # plt.title("TDHO")
+    # plt.colorbar()
 
-    plt.show()
+    # plt.figure()
+    # plt.imshow(u_gauss)
+    # plt.title("Gauss")
+    # plt.colorbar()
 
-    wat
+    # plt.figure()
+    # plt.imshow(u_tdho - u_gauss)
+    # plt.title("Diff")
+    # plt.colorbar()
 
-    # ghf_ho.change_basis()
-    # ghf_gauss.change_basis()
-    tdho.change_basis(ghf_ho.C)
-    gos.change_basis(ghf_gauss.C)
+    # gos_2 = gos.copy_system()
 
-    for i in range(0, tdho.l, 2):
-        plt.figure()
-        plt.title(f"Grid: {i}")
-        plt.contourf(X, Y, np.abs(tdho.spf[i]) ** 2)
+    # eps, C = scipy.linalg.eigh(gos_2.h, gos_2.s)
+    # gos_2.change_basis(C)
 
-    for i in range(0, tdho.l, 2):
-        plt.figure()
-        plt.title(f"Analytic {i}")
-        plt.contourf(X, Y, np.abs(gos.spf[i]) ** 2)
+    # u_gauss = gos_2.u.reshape(gos_2.l ** 2, gos_2.l ** 2)
 
-    rho_qp = np.zeros((thdo.l, tdho.l))
-    rho_qp[0, 0] = 1
-    rho_qp[1, 1] = 1
+    # plt.figure()
+    # plt.imshow(u_gauss)
+    # plt.title("Gauss (HO)")
+    # plt.colorbar()
 
-    C = np.eye(tdho.l)
+    # plt.figure()
+    # plt.imshow(u_tdho - u_gauss)
+    # plt.title("Diff (HO)")
+    # plt.colorbar()
 
-    rho_ho = tdho.compute_particle_density(rho_qp, C)
-    rho_gauss = gos.compute_particle_density(rho_qp, C)
-    # rho_ho = ghf_ho.compute_particle_density()
-    # rho_gauss = ghf_gauss.compute_particle_density()
+    # np.testing.assert_allclose(gos_2.h, tdho.h, atol=1e-14)
+    # np.testing.assert_allclose(gos_2.s, tdho.s, atol=1e-14)
 
-    plt.figure()
-    plt.title("HO particle density")
-    plt.contourf(X, Y, np.abs(rho_ho) ** 2)
+    # tdho.change_basis(ghf_ho.C)
+    # gos.change_basis(ghf_gauss.C)
 
-    plt.figure()
-    plt.title("Gauss particle density")
-    plt.contourf(X, Y, np.abs(rho_ho) ** 2)
+    # u_tdho = tdho.u.reshape(tdho.l ** 2, tdho.l ** 2)
+    # u_gauss = gos.u.reshape(gos.l ** 2, gos.l ** 2)
 
-    plt.show()
+    # plt.figure()
+    # plt.imshow(u_tdho)
+    # plt.title("TDHO (HF)")
+    # plt.colorbar()
+
+    # plt.figure()
+    # plt.imshow(u_gauss)
+    # plt.title("Gauss (HF)")
+    # plt.colorbar()
+
+    # plt.figure()
+    # plt.imshow(u_tdho - u_gauss)
+    # plt.title("Diff (HF)")
+    # plt.colorbar()
+
+    # np.testing.assert_allclose(ghf_ho.epsilon, ghf_gauss.epsilon)
+
+    # for i in range(0, tdho.l, 2):
+    #     plt.figure()
+    #     plt.title(f"Grid: {i}")
+    #     plt.contourf(X, Y, np.abs(tdho.spf[i]) ** 2)
+
+    # for i in range(0, tdho.l, 2):
+    #     plt.figure()
+    #     plt.title(f"Analytic {i}")
+    #     plt.contourf(X, Y, np.abs(gos.spf[i]) ** 2)
+
+    # for i in range(0, tdho.l, 2):
+    #     plt.figure()
+    #     plt.title(f"Grid: {i}")
+    #     plt.contourf(X, Y, np.abs(tdho.spf[i]) ** 2)
+
+    # for i in range(0, tdho.l, 2):
+    #     plt.figure()
+    #     plt.title(f"Analytic {i}")
+    #     plt.contourf(X, Y, np.abs(gos.spf[i]) ** 2)
+
+    # rho_qp = np.zeros((tdho.l, tdho.l))
+    # rho_qp[0, 0] = 1
+    # rho_qp[1, 1] = 1
+
+    # C = np.eye(tdho.l)
+
+    # rho_ho = tdho.compute_particle_density(rho_qp, C)
+    # rho_gauss = gos.compute_particle_density(rho_qp, C)
+    # # rho_ho = ghf_ho.compute_particle_density()
+    # # rho_gauss = ghf_gauss.compute_particle_density()
+
+    # plt.figure()
+    # plt.title("HO particle density")
+    # plt.contourf(X, Y, np.abs(rho_ho) ** 2)
+
+    # plt.figure()
+    # plt.title("Gauss particle density")
+    # plt.contourf(X, Y, np.abs(rho_ho) ** 2)
+
+    # plt.show()
