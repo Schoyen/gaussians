@@ -1,17 +1,14 @@
-import numba
 import numpy as np
-import numba_scipy
+
 from scipy.special import hyp1f1
 
 
-@numba.njit(nogil=True, fastmath=True)
 def boys(n: int, x: float) -> float:
     # TODO: This function should be jitted. Test numba-scipy solution found here:
     # https://github.com/numba/numba-scipy
     return hyp1f1(n + 0.5, n + 1.5, -x) / (2 * n + 1)
 
 
-@numba.njit(nogil=True, fastmath=True)
 def R(
     n: int,
     t: int,

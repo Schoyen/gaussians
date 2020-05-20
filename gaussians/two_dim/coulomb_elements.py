@@ -1,7 +1,5 @@
-import numba
 import numpy as np
 import scipy.special
-import numba_scipy
 
 from .od2d import OD2D
 
@@ -54,12 +52,10 @@ def construct_coulomb_matrix_element(G_a, G_b, G_c, G_d):
     return np.pi ** 2 / (p * q) * np.sqrt(np.pi / (4 * sigma)) * val
 
 
-# @numba.njit(cache=True)
 def I_tilde(t, u, sigma, delta):
     return _I_tilde(0, t, u, sigma, delta)
 
 
-# @numba.njit(cache=True)
 def _I_tilde(n, t, u, sigma, delta):
     assert n >= 0
 
@@ -134,35 +130,7 @@ def _I_tilde(n, t, u, sigma, delta):
 
     return val * pre_factor
 
-    # if u == 0:
-    #     return pre_factor * (
-    #         delta[0]
-    #         * (
-    #             _I_tilde(n_1, t - 1, u, sigma, delta)
-    #             + _I_tilde(n + 1, t - 1, u, sigma, delta)
-    #         )
-    #         - t
-    #         * (
-    #             _I_tilde(n_1, t - 2, u, sigma, delta)
-    #             + _I_tilde(n + 1, t - 2, u, sigma, delta)
-    #         )
-    #     )
 
-    # return pre_factor * (
-    #     delta[1]
-    #     * (
-    #         _I_tilde(n_1, t, u - 1, sigma, delta)
-    #         + _I_tilde(n + 1, t, u - 1, sigma, delta)
-    #     )
-    #     - u
-    #     * (
-    #         _I_tilde(n_1, t, u - 2, sigma, delta)
-    #         + _I_tilde(n + 1, t, u - 2, sigma, delta)
-    #     )
-    # )
-
-
-# @numba.njit(cache=True)
 def extended_bessel(n, sigma, delta):
     delta_sq = delta[0] ** 2 + delta[1] ** 2
     arg = -delta_sq / (8 * sigma)
