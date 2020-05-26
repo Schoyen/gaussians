@@ -136,4 +136,4 @@ def extended_bessel(n, sigma, delta):
     delta_sq = delta[0] ** 2 + delta[1] ** 2
     arg = -delta_sq / (8 * sigma)
 
-    return np.exp(arg) * scipy.special.iv(n, arg)
+    return scipy.special.ive(n, arg)
