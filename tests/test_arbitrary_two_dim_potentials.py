@@ -39,11 +39,19 @@ def test_dipole_moment():
     y_an = construct_multipole_moment_matrix_elements([0, 1], [0, 0], gaussians)
 
     x_sep = construct_arbitrary_separable_potential_elements(
-        potential, overlap, gaussians, x, y,
+        potential,
+        overlap,
+        gaussians,
+        x,
+        y,
     )
 
     y_sep = construct_arbitrary_separable_potential_elements(
-        overlap, potential, gaussians, x, y,
+        overlap,
+        potential,
+        gaussians,
+        x,
+        y,
     )
 
     np.testing.assert_allclose(x_an, x_sep, atol=1e-10)

@@ -40,7 +40,10 @@ def construct_arbitrary_separable_potential_elements(
 
 
 def construct_arbitrary_potential_elements(
-    potential: callable, gaussians: list, x: np.array, y: np.array,
+    potential: callable,
+    gaussians: list,
+    x: np.array,
+    y: np.array,
 ) -> np.ndarray:
     l = len(gaussians)
     v = np.zeros((l, l), dtype=type(potential(x[0], y[0])))
