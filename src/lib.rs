@@ -15,8 +15,8 @@ fn mul_arr(_py: Python, x: &PyArrayDyn<f64>) -> PyResult<()> {
     Ok(())
 }
 
-#[pymodule(gaussian_lib)]
-fn init_mod(_py: Python, m: &PyModule) -> PyResult<()> {
+#[pymodule]
+fn gaussian_lib(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(ret_str))?;
     m.add_wrapped(wrap_pyfunction!(mul_arr))?;
 
