@@ -27,6 +27,17 @@ class G1D:
         self.norm = 1 / self.compute_norm()
 
     def compute_norm(self) -> float:
+        r"""
+        >>> G_0 = G1D(0, 1, 0.0)
+        >>> G_0.compute_norm() #doctest: +ELLIPSIS
+        1.11951...
+
+        Returns
+        -------
+        float
+            The norm of the one-dimensional Cartesian Gaussian.
+        """
+
         return np.sqrt(
             factorial2(2 * self.i - 1, exact=True)
             / (4 * self.a) ** self.i
