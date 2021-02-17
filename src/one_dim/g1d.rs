@@ -2,11 +2,11 @@ use factorial::DoubleFactorial;
 use itertools::izip;
 
 pub struct G1D {
-    i: u32,
-    a: f64,
-    center: f64,
-    symbol: char,
-    norm: f64,
+    pub i: u32,
+    pub a: f64,
+    pub center: f64,
+    pub symbol: char,
+    pub norm: f64,
 }
 
 impl G1D {
