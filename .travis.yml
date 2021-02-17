@@ -13,4 +13,5 @@ install:
     - pip install -e . -U
 script:
     - py.test
+    - cargo test
     - black --check
