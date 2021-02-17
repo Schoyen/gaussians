@@ -1,6 +1,5 @@
 from setuptools import setup, find_packages
-
-# from setuptools_rust import RustExtension
+from setuptools_rust import RustExtension, Binding
 
 
 setup(
@@ -13,7 +12,10 @@ setup(
         "numba",
         "tqdm",
     ],
-    # rust_extensions=[RustExtension("gaussians.gaussian_lib", "./Cargo.toml",),],
-    # zip_safe=False,
-    # setup_requires=["setuptools-rust"],
+    rust_extensions=[
+        RustExtension(
+            "gaussians.gaussian_lib", "Cargo.toml", binding=Binding.PyO3
+        ),
+    ],
+    zip_safe=False,
 )
