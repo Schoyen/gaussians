@@ -9,7 +9,7 @@ fn ret_str() -> PyResult<String> {
 
 #[pyfunction]
 fn mul_arr(_py: Python, x: &PyArrayDyn<f64>) -> PyResult<()> {
-    let mut x = x.as_array_mut();
+    let mut x = unsafe { x.as_array_mut() };
     x.map_inplace(|y| *y *= 2.0);
 
     Ok(())
