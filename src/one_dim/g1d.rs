@@ -24,14 +24,13 @@ impl G1D {
 
     pub fn compute_norm(i: u32, a: f64) -> f64 {
         let df_test = 2 * (i as i32) - 1;
-        let mut df = 0u32;
+        assert!(df_test >= -1);
 
-        if df_test == -1 {
-            df = 1;
+        let df = if df_test == -1 {
+            1
         } else {
-            assert!(df_test >= 0);
-            df = (df_test as u32).double_factorial();
-        }
+            (df_test as u32).double_factorial()
+        };
 
         ((df as f64) / (4.0 * a).powi(i as i32)
             * (std::f64::consts::PI / (2.0 * a)).sqrt())
@@ -40,9 +39,9 @@ impl G1D {
 
     pub fn evaluate_point(&self, x: f64, with_norm: bool) -> f64 {
         let norm = if with_norm { self.norm } else { 1.0 };
-        let x_A = x - self.center;
+        let x_center = x - self.center;
 
-        norm * x_A.powi(self.i as i32) * (-self.a * x_A.powi(2)).exp()
+        norm * x_center.powi(self.i as i32) * (-self.a * x_center.powi(2)).exp()
     }
 
     pub fn evaluate(&self, x: &Vec<f64>, with_norm: bool) -> Vec<f64> {
@@ -62,7 +61,6 @@ mod tests {
 
     #[test]
     fn test_construction() {
-        let g1d = G1D::new(1, 1.0, 0.0, 'x');
         let g1d_z = G1D::new(0, 1.0, 0.0, 'x');
 
         assert!(G1D::compute_norm(1, 1.0) > 0.0);
