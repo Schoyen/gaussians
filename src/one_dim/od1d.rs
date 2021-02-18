@@ -1,14 +1,16 @@
 use super::G1D;
 
-pub struct OD1D {
-    g_i: G1D,
-    g_j: G1D,
+pub struct OD1D<'a> {
+    g_i: &'a G1D,
+    g_j: &'a G1D,
 
-    tot_exp: f64,
+    pub i: u32,
+    pub j: u32,
+    pub tot_exp: f64,
     red_exp: f64,
 
     center_diff: f64,
-    com: f64,
+    pub com: f64,
     i_com: f64,
     j_com: f64,
 
@@ -16,8 +18,10 @@ pub struct OD1D {
     norm: f64,
 }
 
-impl OD1D {
-    pub fn new(g_i: G1D, g_j: G1D) -> Self {
+impl<'a> OD1D<'a> {
+    pub fn new(g_i: &'a G1D, g_j: &'a G1D) -> Self {
+        let i = g_i.i;
+        let j = g_j.i;
         let tot_exp = g_i.a + g_j.a; // p
         let red_exp = g_i.a * g_j.a / tot_exp; // mu
         let center_diff = g_i.center - g_j.center; // X_AB
@@ -30,6 +34,8 @@ impl OD1D {
         OD1D {
             g_i,
             g_j,
+            i,
+            j,
             tot_exp,
             red_exp,
             center_diff,
@@ -57,7 +63,7 @@ impl OD1D {
     }
 
     pub fn expansion_coefficients(&self, t: i32) -> f64 {
-        self._expansion_coefficients(self.g_i.i as i32, self.g_j.i as i32, t)
+        self._expansion_coefficients(self.i as i32, self.j as i32, t)
     }
 
     pub fn _expansion_coefficients(&self, i: i32, j: i32, t: i32) -> f64 {
@@ -90,24 +96,22 @@ mod tests {
 
     #[test]
     fn test_construction() {
-        let od_01 =
-            OD1D::new(G1D::new(0, 1.0, 0.0, 'x'), G1D::new(1, 1.0, 0.5, 'x'));
+        let g_0 = G1D::new(0, 1.0, 0.0, 'x');
+        let g_1 = G1D::new(1, 1.0, 0.5, 'x');
+        let od_01 = OD1D::new(&g_0, &g_1);
 
-        assert_eq!(
-            od_01.red_exp,
-            od_01.g_i.a * od_01.g_j.a / (od_01.g_i.a + od_01.g_j.a)
-        );
-        assert_eq!(od_01.center_diff, od_01.g_i.center - od_01.g_j.center);
+        assert_eq!(od_01.red_exp, g_0.a * g_1.a / (g_0.a + g_1.a));
+        assert_eq!(od_01.center_diff, g_0.center - g_1.center);
     }
 
     #[test]
     fn test_expansion_coefficients() {
-        let od_01 =
-            OD1D::new(G1D::new(0, 1.0, -0.5, 'x'), G1D::new(1, 0.7, 0.5, 'x'));
-        let od_02 =
-            OD1D::new(G1D::new(0, 1.0, -0.5, 'x'), G1D::new(2, 1.2, 0.3, 'x'));
-        let od_21 =
-            OD1D::new(G1D::new(2, 1.2, 0.3, 'x'), G1D::new(1, 0.7, 0.5, 'x'));
+        let g_0 = G1D::new(0, 1.0, -0.5, 'x');
+        let g_1 = G1D::new(1, 0.7, 0.5, 'x');
+        let g_2 = G1D::new(2, 1.2, 0.3, 'x');
+        let od_01 = OD1D::new(&g_0, &g_1);
+        let od_02 = OD1D::new(&g_0, &g_2);
+        let od_21 = OD1D::new(&g_2, &g_1);
 
         assert!((od_01.expansion_coefficients(0) - (-0.38969419)).abs() < 1e-7);
         assert!((od_01.expansion_coefficients(1) - 0.19484709).abs() < 1e-7);
