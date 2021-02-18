@@ -32,6 +32,29 @@ class OD1D:
         )
 
     def E(self, t):
+        r"""
+        >>> from gaussians import G1D
+        >>> g_0 = G1D(0, 1.0, -0.5)
+        >>> g_1 = G1D(1, 0.7, 0.5)
+        >>> g_2 = G1D(2, 1.2, 0.3)
+        >>> od_01 = OD1D(g_0, g_1)
+        >>> od_02 = OD1D(g_0, g_2)
+        >>> od_21 = OD1D(g_2, g_1)
+        >>> od_01.E(0) # doctest: +ELLIPSIS
+        -0.38969419...
+        >>> od_01.E(1) # doctest: +ELLIPSIS
+        0.19484709...
+        >>> od_01.E(2)
+        0
+        >>> od_02.E(0) # doctest: +ELLIPSIS
+        0.25356869...
+        >>> od_02.E(1) # doctest: +ELLIPSIS
+        -0.11658330...
+        >>> od_21.E(0) # doctest: +ELLIPSIS
+        0.00476926...
+        >>> od_21.E(2) # doctest: +ELLIPSIS
+        0.00143238...
+        """
         return self._E(self.i, self.j, t)
 
     def _E(self, i, j, t):

@@ -29,7 +29,7 @@ class G1D:
     def compute_norm(self) -> float:
         r"""
         >>> G_0 = G1D(0, 1, 0.0)
-        >>> G_0.compute_norm() #doctest: +ELLIPSIS
+        >>> G_0.compute_norm() # doctest: +ELLIPSIS
         1.11951...
 
         Returns
