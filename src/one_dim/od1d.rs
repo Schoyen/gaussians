@@ -92,6 +92,12 @@ mod tests {
     fn test_construction() {
         let od_01 =
             OD1D::new(G1D::new(0, 1.0, 0.0, 'x'), G1D::new(1, 1.0, 0.5, 'x'));
+
+        assert_eq!(
+            od_01.red_exp,
+            od_01.g_i.a * od_01.g_j.a / (od_01.g_i.a + od_01.g_j.a)
+        );
+        assert_eq!(od_01.center_diff, od_01.g_i.center - od_01.g_j.center);
     }
 
     #[test]
