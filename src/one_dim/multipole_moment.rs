@@ -1,34 +1,59 @@
 use super::G1D;
 use super::OD1D;
 
-fn construct_overlap_matrix_elements(gaussians: &Vec<G1D>) -> Vec<Vec<f64>> {
+use ndarray::{Array, Array2};
+
+fn construct_overlap_matrix_elements(gaussians: &Vec<G1D>) -> Array2<f64> {
     construct_multipole_moment_matrix_elements(0, 0.0, gaussians)
+}
+
+fn construct_overlap_matrix_elements_inplace(
+    gaussians: &Vec<G1D>,
+    s: &mut Array2<f64>,
+) {
+    construct_multipole_moment_matrix_elements_inplace(0, 0.0, gaussians, s);
 }
 
 fn construct_multipole_moment_matrix_elements(
     e: u32,
     center: f64,
     gaussians: &Vec<G1D>,
-) -> Vec<Vec<f64>> {
+) -> Array2<f64> {
     let l = gaussians.len();
-    let mut s_e = vec![vec![0.0; l]; l];
+    let mut s_e = Array::zeros((l, l));
+
+    construct_multipole_moment_matrix_elements_inplace(
+        e, center, gaussians, &mut s_e,
+    );
+
+    s_e
+}
+
+fn construct_multipole_moment_matrix_elements_inplace(
+    e: u32,
+    center: f64,
+    gaussians: &Vec<G1D>,
+    s_e: &mut Array2<f64>,
+) {
+    let l = gaussians.len();
+
+    assert!(s_e.nrows() == l);
+    assert!(s_e.is_square());
 
     for i in 0..l {
         let g_i = &gaussians[i];
 
-        s_e[i][i] = g_i.norm.powi(2) * s(e, center, OD1D::new(&g_i, &g_i));
+        s_e[[i, i]] = g_i.norm.powi(2) * s(e, center, OD1D::new(&g_i, &g_i));
 
         for j in (i + 1)..l {
             let g_j = &gaussians[j];
 
             let val = g_i.norm * g_j.norm * s(e, center, OD1D::new(&g_i, &g_j));
 
-            s_e[i][j] = val;
-            s_e[j][i] = val;
+            s_e[[i, j]] = val;
+            s_e[[j, i]] = val;
         }
     }
-
-    s_e
 }
 
 fn s(e: u32, center: f64, od: OD1D) -> f64 {
@@ -75,9 +100,9 @@ mod tests {
 
         let s = construct_overlap_matrix_elements(&g_list);
 
-        for i in 0..s.len() {
-            for j in 0..s[i].len() {
-                assert!(s[i][j].abs() < 1e-12);
+        for i in 0..s.nrows() {
+            for j in 0..s.ncols() {
+                assert!(s[[i, j]].abs() < 1e-12);
             }
         }
     }
@@ -93,9 +118,9 @@ mod tests {
 
         let d = construct_multipole_moment_matrix_elements(1, 1.0, &g_list);
 
-        for i in 0..d.len() {
-            for j in 0..d[i].len() {
-                assert!((d[i][j] - d[j][i]).abs() < 1e-12);
+        for i in 0..d.nrows() {
+            for j in 0..d.ncols() {
+                assert!((d[[i, j]] - d[[j, i]]).abs() < 1e-12);
             }
         }
     }
