@@ -5,6 +5,7 @@ from gaussians.one_dim.multipole_moment import (
     construct_multipole_moment_matrix_elements,
     construct_overlap_matrix_elements,
 )
+import gaussians.one_dim_lib as odl
 
 from helpers.utils import overlap as j_overlap, E
 
@@ -82,6 +83,13 @@ def test_overlap():
     np.testing.assert_allclose(s_2, s_2.T)
     np.testing.assert_allclose(s, s.T)
     np.testing.assert_allclose(s, s_5)
+
+    np.testing.assert_allclose(
+        s_5,
+        odl.construct_overlap_matrix_elements(
+            [g.get_params() for g in gaussians]
+        ),
+    )
 
 
 def test_dipole_moment():
