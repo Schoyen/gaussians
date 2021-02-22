@@ -82,4 +82,4 @@ class G1D:
         )
 
     def get_params(self):
-        return (selfi, self.a, self.A, self.symbol)
+        return (self.i, self.a, self.A, self.symbol)
