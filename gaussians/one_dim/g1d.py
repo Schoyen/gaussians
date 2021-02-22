@@ -80,3 +80,6 @@ class G1D:
             f"({self.symbol} - {self.A}) ** {self.i} * exp(-{self.a} * "
             + f"({self.symbol} - {self.A}) ** 2)"
         )
+
+    def get_params(self):
+        return (selfi, self.a, self.A, self.symbol)
