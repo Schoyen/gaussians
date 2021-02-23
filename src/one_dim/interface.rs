@@ -25,14 +25,31 @@ pub fn construct_overlap_matrix_elements<'a>(
 ) -> &'a PyArray2<f64> {
     let gaussians = set_up_g1d_vec(g1d_params);
     let s = gs_lib::one_dim::construct_overlap_matrix_elements(&gaussians);
-    dbg!(&s);
 
     s.to_pyarray(py)
+}
+
+#[pyfunction]
+pub fn construct_multipole_moment_matrix_elements<'a>(
+    py: Python<'a>,
+    e: u32,
+    center: f64,
+    g1d_params: &'a PyList,
+) -> &'a PyArray2<f64> {
+    let gaussians = set_up_g1d_vec(g1d_params);
+    let s_e = gs_lib::one_dim::construct_multipole_moment_matrix_elements(
+        e, center, &gaussians,
+    );
+
+    s_e.to_pyarray(py)
 }
 
 #[pymodule]
 fn one_dim_lib(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(construct_overlap_matrix_elements))?;
+    m.add_wrapped(wrap_pyfunction!(
+        construct_multipole_moment_matrix_elements
+    ))?;
 
     Ok(())
 }
