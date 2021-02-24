@@ -26,3 +26,6 @@ class G2D:
 
     def __str__(self):
         return str(self.G_x) + " * " + str(self.G_y)
+
+    def get_params(self):
+        return (self.alpha, self.a, tuple(self.A))
