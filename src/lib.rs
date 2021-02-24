@@ -3,6 +3,7 @@ use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
 
 pub mod one_dim;
+pub mod two_dim;
 
 #[pyfunction]
 fn ret_str() -> PyResult<String> {
