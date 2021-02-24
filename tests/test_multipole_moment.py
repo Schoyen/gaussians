@@ -104,6 +104,6 @@ def test_dipole_moment():
     np.testing.assert_allclose(
         d,
         odl.construct_multipole_moment_matrix_elements(
-            1, 1, [g.get_params() for g in gaussians]
+            1, 1, tuple(g.get_params() for g in gaussians)
         ),
     )

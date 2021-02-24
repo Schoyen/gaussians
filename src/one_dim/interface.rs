@@ -1,12 +1,12 @@
 use pyo3::prelude::*;
-use pyo3::types::PyList;
+use pyo3::types::PySequence;
 use pyo3::wrap_pyfunction;
 
 use numpy::{PyArray2, ToPyArray};
 
 use gs_lib::one_dim::G1D;
 
-fn set_up_g1d_vec(g1d_params: &PyList) -> Vec<G1D> {
+fn set_up_g1d_vec(g1d_params: &PySequence) -> Vec<G1D> {
     let g1d_param_vec =
         g1d_params.extract::<Vec<(u32, f64, f64, char)>>().unwrap();
 
@@ -19,7 +19,7 @@ fn set_up_g1d_vec(g1d_params: &PyList) -> Vec<G1D> {
 #[pyfunction]
 pub fn construct_overlap_matrix_elements<'a>(
     py: Python<'a>,
-    g1d_params: &'a PyList,
+    g1d_params: &'a PySequence,
 ) -> &'a PyArray2<f64> {
     let gaussians = set_up_g1d_vec(g1d_params);
     let s = gs_lib::one_dim::construct_overlap_matrix_elements(&gaussians);
@@ -32,7 +32,7 @@ pub fn construct_multipole_moment_matrix_elements<'a>(
     py: Python<'a>,
     e: u32,
     center: f64,
-    g1d_params: &'a PyList,
+    g1d_params: &'a PySequence,
 ) -> &'a PyArray2<f64> {
     let gaussians = set_up_g1d_vec(g1d_params);
     let s_e = gs_lib::one_dim::construct_multipole_moment_matrix_elements(
@@ -45,7 +45,7 @@ pub fn construct_multipole_moment_matrix_elements<'a>(
 #[pyfunction]
 pub fn construct_kinetic_operator_matrix_elements<'a>(
     py: Python<'a>,
-    g1d_params: &'a PyList,
+    g1d_params: &'a PySequence,
 ) -> &'a PyArray2<f64> {
     let gaussians = set_up_g1d_vec(g1d_params);
     let t =
@@ -58,7 +58,7 @@ pub fn construct_kinetic_operator_matrix_elements<'a>(
 pub fn construct_differential_operator_matrix_elements<'a>(
     py: Python<'a>,
     e: u32,
-    g1d_params: &'a PyList,
+    g1d_params: &'a PySequence,
 ) -> &'a PyArray2<f64> {
     let gaussians = set_up_g1d_vec(g1d_params);
     let d_e = gs_lib::one_dim::construct_differential_operator_matrix_elements(
