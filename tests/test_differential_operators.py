@@ -7,6 +7,8 @@ from gaussians.one_dim.differential_operator import (
 )
 from gaussians.one_dim.multipole_moment import S
 
+import gaussians.one_dim_lib as odl
+
 
 def kinetic(G_i, G_j):
     b = G_j.a
@@ -41,3 +43,20 @@ def test_kinetic_elements():
     np.testing.assert_allclose(t, t_2, atol=1e-12)
     np.testing.assert_allclose(t, t.T, atol=1e-12)
     np.testing.assert_allclose(t_2, t_3)
+
+    np.testing.assert_allclose(
+        t,
+        odl.construct_kinetic_operator_matrix_elements(
+            [g.get_params() for g in gaussians]
+        ),
+        atol=1e-12,
+    )
+
+    np.testing.assert_allclose(
+        t,
+        -0.5
+        * odl.construct_differential_operator_matrix_elements(
+            2, [g.get_params() for g in gaussians]
+        ),
+        atol=1e-12,
+    )
