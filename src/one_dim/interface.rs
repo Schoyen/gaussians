@@ -9,13 +9,11 @@ use gs_lib::one_dim::G1D;
 fn set_up_g1d_vec(g1d_params: &PyList) -> Vec<G1D> {
     let g1d_param_vec =
         g1d_params.extract::<Vec<(u32, f64, f64, char)>>().unwrap();
-    let mut g1d_vec = Vec::new();
 
-    for (i, a, center, symbol) in g1d_param_vec.into_iter() {
-        g1d_vec.push(G1D::new(i, a, center, symbol));
-    }
-
-    g1d_vec
+    g1d_param_vec
+        .into_iter()
+        .map(|(i, a, center, symbol)| G1D::new(i, a, center, symbol))
+        .collect()
 }
 
 #[pyfunction]
