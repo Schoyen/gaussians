@@ -6,6 +6,7 @@ python:
 before_install:
   - curl https://sh.rustup.rs -sSf | sh -s -- -y -v --default-toolchain nightly
   - source $HOME/.cargo/env
+  - sudo apt-get install libgsl0-dev
 
 install:
     - pip install pipenv
