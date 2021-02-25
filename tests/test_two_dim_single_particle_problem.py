@@ -11,6 +11,8 @@ from gaussians.two_dim import (
     construct_multipole_moment_matrix_elements,
 )
 
+import gaussians.two_dim_lib as tdl
+
 
 def test_two_dim_ho():
     omega = 1
@@ -37,6 +39,29 @@ def test_two_dim_ho():
     )
     h = t + v
     s = construct_overlap_matrix_elements(gaussians)
+
+    g_params = [g.get_params() for g in gaussians]
+
+    t_r = tdl.construct_kinetic_operator_matrix_elements(g_params)
+    v_r = (
+        0.5
+        * omega ** 2
+        * (
+            tdl.construct_multipole_moment_matrix_elements(
+                (2, 0), (0, 0), g_params
+            )
+            + tdl.construct_multipole_moment_matrix_elements(
+                (0, 2), (0, 0), g_params
+            )
+        )
+    )
+    h_r = t_r + v_r
+    s_r = tdl.construct_overlap_matrix_elements(g_params)
+
+    np.testing.assert_allclose(t_r, t)
+    np.testing.assert_allclose(v_r, v)
+    np.testing.assert_allclose(h_r, h)
+    np.testing.assert_allclose(s, s_r)
 
     epsilon_2, C = scipy.linalg.eigh(h, s)
 
