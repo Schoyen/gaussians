@@ -2,7 +2,7 @@ use pyo3::prelude::*;
 use pyo3::types::PySequence;
 use pyo3::wrap_pyfunction;
 
-use numpy::{PyArray2, ToPyArray};
+use numpy::{PyArray2, PyArray4, ToPyArray};
 
 use gs_lib::two_dim::G2D;
 
@@ -72,6 +72,18 @@ pub fn construct_differential_operator_matrix_elements<'a>(
     d_e.to_pyarray(py)
 }
 
+#[pyfunction]
+pub fn construct_coulomb_operator_matrix_elements<'a>(
+    py: Python<'a>,
+    g2d_params: &'a PySequence,
+) -> &'a PyArray4<f64> {
+    let gaussians = set_up_g2d_vec(g2d_params);
+    let u =
+        gs_lib::two_dim::construct_coulomb_operator_matrix_elements(&gaussians);
+
+    u.to_pyarray(py)
+}
+
 #[pymodule]
 fn two_dim_lib(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(construct_overlap_matrix_elements))?;
@@ -83,6 +95,9 @@ fn two_dim_lib(_py: Python, m: &PyModule) -> PyResult<()> {
     ))?;
     m.add_wrapped(wrap_pyfunction!(
         construct_differential_operator_matrix_elements
+    ))?;
+    m.add_wrapped(wrap_pyfunction!(
+        construct_coulomb_operator_matrix_elements
     ))?;
 
     Ok(())

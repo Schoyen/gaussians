@@ -21,6 +21,8 @@ from gaussians.two_dim import (
     construct_multipole_moment_matrix_elements,
 )
 
+import gaussians.two_dim_lib as tdl
+
 
 def one_dim_ho_spf(n, x, omega):
     return (
@@ -45,6 +47,7 @@ def test_two_dim_ho():
         G2D((1, 1), omega / 2),
         G2D((0, 2), omega / 2),
     ]
+    g_params = [g.get_params() for g in gaussians]
 
     tdho = TwoDimensionalHarmonicOscillator(l, 6, 401, omega=omega)
 
@@ -68,6 +71,29 @@ def test_two_dim_ho():
     h = t + v
     s = construct_overlap_matrix_elements(gaussians)
     u = construct_coulomb_matrix_elements(gaussians)
+
+    t_r = tdl.construct_kinetic_operator_matrix_elements(g_params)
+    v_r = (
+        0.5
+        * omega ** 2
+        * (
+            tdl.construct_multipole_moment_matrix_elements(
+                (2, 0), (0, 0), g_params
+            )
+            + tdl.construct_multipole_moment_matrix_elements(
+                (0, 2), (0, 0), g_params
+            )
+        )
+    )
+    h_r = t_r + v_r
+    s_r = tdl.construct_overlap_matrix_elements(g_params)
+    u_r = tdl.construct_coulomb_operator_matrix_elements(g_params)
+
+    np.testing.assert_allclose(t, t_r)
+    np.testing.assert_allclose(v, v_r)
+    np.testing.assert_allclose(h, h_r)
+    np.testing.assert_allclose(s, s_r)
+    np.testing.assert_allclose(u, u_r)
 
     bs = BasisSet(len(gaussians), dim=2)
     bs.h = h
