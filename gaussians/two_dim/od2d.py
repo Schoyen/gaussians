@@ -14,7 +14,7 @@ class OD2D:
         assert self.O_x.p == self.O_y.p
         self.p = self.O_x.p
 
-        self.P = self.G_a.A - self.G_b.A
+        self.P = np.asarray([self.O_x.P, self.O_y.P])
 
         self.x_sum_lim = self.O_x.i + self.O_x.j
         self.y_sum_lim = self.O_y.i + self.O_y.j
