@@ -21,11 +21,18 @@ from gaussians.two_dim import (
 
 
 def test_construction():
-    gaussians = [G2D((0, 0), 1), G2D((1, 0), 1), G2D((0, 1), 1), G2D((1, 1), 1)]
+    gaussians = [
+        G2D((0, 0), 1, (0, 0.5)),
+        G2D((1, 0), 1, (-0.3, -0.5)),
+        G2D((0, 1), 1),
+        G2D((1, 1), 1, (0.4, -0.2)),
+    ]
 
     u = construct_coulomb_matrix_elements(gaussians)
 
     np.testing.assert_allclose(u, u.transpose(2, 3, 0, 1))
+    np.testing.assert_allclose(u, u.transpose(2, 1, 0, 3))
+    np.testing.assert_allclose(u, u.transpose(0, 3, 2, 1))
 
 
 def test_two_dim_ho():
