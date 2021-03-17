@@ -37,7 +37,7 @@ def test_ho_potential():
     omega = 0.5
     grid = np.linspace(-10, 10, 1001)
 
-    gaussians = [G1D(i, omega / np.sqrt(2), 0) for i in range(l)]
+    gaussians = [G1D(i, omega / 2, 0) for i in range(l)]
 
     v_mm = (
         0.5

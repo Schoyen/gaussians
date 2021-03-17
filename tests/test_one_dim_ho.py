@@ -24,7 +24,7 @@ def odho_hamiltonian():
     gaussians = []
 
     for i in range(l):
-        gaussians.append(G1D(i, omega / np.sqrt(2), 0))
+        gaussians.append(G1D(i, omega / 2, 0))
 
     t = -0.5 * construct_differential_matrix_elements(2, gaussians)
     v = (
@@ -47,7 +47,7 @@ def test_eigenenergies(odho_hamiltonian):
 
     # We only test the first 10 eigenenergies. Higher order will be worse.
     for i in range(10):
-        np.testing.assert_allclose(energies[i], eps(i), atol=1e-7)
+        np.testing.assert_allclose(energies[i], eps(i), atol=1e-12)
 
 
 def test_rust_one_dim_lib():
@@ -56,7 +56,7 @@ def test_rust_one_dim_lib():
     omega = 0.5
     l = 20
 
-    gaussians = [G1D(i, omega / np.sqrt(2), 0) for i in range(l)]
+    gaussians = [G1D(i, omega / 2, 0) for i in range(l)]
 
     t_0 = time.time()
     t = construct_kinetic_matrix_elements(gaussians)
