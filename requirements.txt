@@ -1,0 +1,8 @@
+setuptools-rust
+matplotlib
+pytest
+black
+nb-black
+git+https://github.com/Schoyen/quantum-systems.git
+git+ssh://git@github.com/Schoyen/hartree-fock.git
+git+ssh://git@github.com/Schoyen/configuration-interaction.git
