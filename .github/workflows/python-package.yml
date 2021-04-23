@@ -23,8 +23,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Test clone
+      run: git clone git@github.com/Schoyen/gs-ib
     - name: Install GSL
       run: sudo apt-get install libgsl0-dev
     - name: Build
