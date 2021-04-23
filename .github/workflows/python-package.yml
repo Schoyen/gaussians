@@ -47,4 +47,4 @@ jobs:
         pytest
     - name: Test formatting
       run: |
-        black --check
+        black . --check
