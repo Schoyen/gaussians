@@ -24,7 +24,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Test clone
-      run: git clone git@github.com/Schoyen/gs-lib.git
+      run: git clone git@github.com:Schoyen/gs-lib.git
     - name: Install GSL
       run: sudo apt-get install libgsl0-dev
     - name: Build
