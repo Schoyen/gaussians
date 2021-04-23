@@ -26,6 +26,8 @@ jobs:
     - name: Install GSL
       run: sudo apt-get install libgsl0-dev
     - name: Build
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
       run: cargo build --verbose
     - name: Run tests
       run: cargo test --verbose
