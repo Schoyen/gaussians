@@ -4,3 +4,52 @@
 
 Repository used for exploration of Gaussian and Hermite Gaussian basis
 functions.
+
+
+## Dependencies
+
+To install this package you first need (assuming you already have Python and pip installed) the Rust compiler. The easiest way to get Rust is found [here](https://www.rust-lang.org/tools/install).
+Next, in order to install [gs-lib](https://github.com/Schoyen/gs-lib) via Cargo (as long as this project is private) you need to configure Cargo to use git via the command-line and set up an ssh-key for your Github user.
+Edit the file `~/.cargo/config` such that you get these settings:
+```bash
+$ cat .cargo/config
+[net]
+git-fetch-with-cli = true
+```
+You also need to install [GSL](https://www.gnu.org/software/gsl/) (the GNU scientific library).
+On Ubuntu you can do this via:
+```bash
+$ sudo apt install libgsl0-dev
+```
+and with Pacman there is:
+```bash
+$ sudo pacman -S gsl
+```
+Finally we can install the necessary dependencies using pip by running:
+```bash
+$ pip install -r requirements.txt
+```
+
+### Virtual environment
+It is recommended to set up a virtual environment prior to running pip.
+Do this via:
+```bash
+$ python -m venv venv
+$ source venv/bin/activate
+```
+To deactivate the environment run:
+```bash
+$ deactivate
+```
+
+## Installation
+
+To install the library you can now run:
+```bash
+pip install .
+```
+in your local clone.
+Otherwise, you can also install via git by:
+```bash
+pip install git+ssh://git@github.com/Schoyen/gaussians.git
+```
