@@ -83,3 +83,9 @@ class G1D:
 
     def get_params(self):
         return (self.i, self.a, self.A, self.symbol)
+
+    def decrement_i(self):
+        return G1D(self.i - 1, self.a, self.A, self.symbol)
+
+    def increment_i(self):
+        return G1D(self.i + 1, self.a, self.A, self.symbol)
