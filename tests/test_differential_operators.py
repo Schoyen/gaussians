@@ -6,6 +6,7 @@ from gaussians.one_dim.differential_operator import (
     construct_kinetic_matrix_elements,
 )
 from gaussians.one_dim.multipole_moment import S
+from gaussians.one_dim.diff_mm_operator import construct_diff_mm_matrix_elements
 
 import gaussians.one_dim_lib as odl
 
@@ -39,10 +40,12 @@ def test_kinetic_elements():
     t = construct_kinetic_matrix(gaussians)
     t_2 = -0.5 * construct_differential_matrix_elements(2, gaussians)
     t_3 = construct_kinetic_matrix_elements(gaussians)
+    t_4 = -0.5 * construct_diff_mm_matrix_elements(0, 2, 0, gaussians)
 
     np.testing.assert_allclose(t, t_2, atol=1e-12)
     np.testing.assert_allclose(t, t.T, atol=1e-12)
     np.testing.assert_allclose(t_2, t_3)
+    np.testing.assert_allclose(t, t_4, atol=1e-12)
 
     np.testing.assert_allclose(
         t,

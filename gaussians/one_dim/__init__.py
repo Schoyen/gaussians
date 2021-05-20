@@ -10,3 +10,6 @@ from .differential_operator import (
     construct_differential_matrix_elements,
     construct_kinetic_matrix_elements,
 )
+from .diff_mm_operator import (
+    construct_diff_mm_matrix_elements,
+)

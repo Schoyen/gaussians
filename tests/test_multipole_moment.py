@@ -5,6 +5,7 @@ from gaussians.one_dim.multipole_moment import (
     construct_multipole_moment_matrix_elements,
     construct_overlap_matrix_elements,
 )
+from gaussians.one_dim.diff_mm_operator import construct_diff_mm_matrix_elements
 import gaussians.one_dim_lib as odl
 
 from helpers.utils import overlap as j_overlap, E
@@ -61,6 +62,7 @@ def test_overlap():
     s = construct_multipole_moment_matrix_elements(0, 0, gaussians)
     s_2 = construct_overlap_matrix(gaussians)
     s_5 = construct_overlap_matrix_elements(gaussians)
+    s_6 = construct_diff_mm_matrix_elements(0, 0, 0, gaussians)
 
     x = np.linspace(-10, 10, 1001)
 
@@ -83,6 +85,7 @@ def test_overlap():
     np.testing.assert_allclose(s_2, s_2.T)
     np.testing.assert_allclose(s, s.T)
     np.testing.assert_allclose(s, s_5)
+    np.testing.assert_allclose(s, s_6)
 
     np.testing.assert_allclose(
         s_5,
@@ -97,9 +100,11 @@ def test_dipole_moment():
 
     d = construct_multipole_moment_matrix_elements(1, 1, gaussians)
     d_2 = construct_dipole_moment_matrix(gaussians)
+    d_3 = construct_diff_mm_matrix_elements(1, 0, 1, gaussians)
 
     np.testing.assert_allclose(d, d_2)
     np.testing.assert_allclose(d, d.T)
+    np.testing.assert_allclose(d, d_3)
 
     np.testing.assert_allclose(
         d,
