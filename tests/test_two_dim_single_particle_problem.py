@@ -57,7 +57,7 @@ def test_two_dim_ho():
     h_r = t_r + v_r
     s_r = tdl.construct_overlap_matrix_elements(g_params)
 
-    np.testing.assert_allclose(t_r, t)
+    np.testing.assert_allclose(t_r, t, atol=1e-14)
     np.testing.assert_allclose(v_r, v)
     np.testing.assert_allclose(h_r, h)
     np.testing.assert_allclose(s, s_r)
