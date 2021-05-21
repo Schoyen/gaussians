@@ -1,8 +1,52 @@
 import numba
 import numpy as np
 
-from .g1d import G1D
-from .od1d import OD1D
+from gaussians import G1D, OD1D
+
+
+def overlap(G_i, G_j):
+    O_ij = OD1D(G_i, G_j)
+
+    return O_ij.E(0) * np.sqrt(np.pi / O_ij.p)
+
+
+def construct_overlap_matrix(gaussians):
+    l = len(gaussians)
+    s = np.zeros((l, l))
+
+    for i in range(l):
+        G_i = gaussians[i]
+
+        for j in range(l):
+            G_j = gaussians[j]
+
+            s[i, j] = G_i.norm * G_j.norm * overlap(G_i, G_j)
+
+    return s
+
+
+def dipole_moment(C, G_i, G_j):
+    O_ij = OD1D(G_i, G_j)
+
+    X_PC = O_ij.P - C
+    p = O_ij.p
+
+    return (O_ij.E(1) + X_PC * O_ij.E(0)) * np.sqrt(np.pi / p)
+
+
+def construct_dipole_moment_matrix(gaussians):
+    l = len(gaussians)
+    d = np.zeros((l, l))
+
+    for i in range(l):
+        G_i = gaussians[i]
+
+        for j in range(l):
+            G_j = gaussians[j]
+
+            d[i, j] = G_i.norm * G_j.norm * dipole_moment(1, G_i, G_j)
+
+    return d
 
 
 def construct_overlap_matrix_elements(gaussians: list):
