@@ -2,7 +2,7 @@ import numpy as np
 
 from gaussians import G1D, OD1D
 
-from helpers.utils import E
+import helpers.utils
 
 
 def test_hermite_expansion_symmetry():
@@ -34,10 +34,14 @@ def test_hermite_expansion_symmetry():
 
             for t in range(max(angular_mom)):
                 np.testing.assert_allclose(
-                    E(O_ij.i, O_ij.j, t, O_ij.X_AB, O_ij.G_i.a, O_ij.G_j.a),
+                    helpers.utils.E(
+                        O_ij.i, O_ij.j, t, O_ij.X_AB, O_ij.G_i.a, O_ij.G_j.a
+                    ),
                     O_ij.E(t),
                 )
                 np.testing.assert_allclose(
-                    E(O_ji.i, O_ji.j, t, O_ji.X_AB, O_ji.G_i.a, O_ji.G_j.a),
+                    helpers.utils.E(
+                        O_ji.i, O_ji.j, t, O_ji.X_AB, O_ji.G_i.a, O_ji.G_j.a
+                    ),
                     O_ji.E(t),
                 )

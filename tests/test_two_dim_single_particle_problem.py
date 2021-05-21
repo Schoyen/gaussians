@@ -1,7 +1,6 @@
 import numpy as np
 import scipy.linalg
 
-# from helpers.utils import two_dim_grid_solver
 from quantum_systems import TwoDimensionalHarmonicOscillator
 
 from gaussians import G2D

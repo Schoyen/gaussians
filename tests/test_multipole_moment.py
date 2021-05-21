@@ -8,7 +8,7 @@ from gaussians.one_dim.multipole_moment import (
 from gaussians.one_dim.diff_mm_operator import construct_diff_mm_matrix_elements
 import gaussians.one_dim_lib as odl
 
-from helpers.utils import overlap as j_overlap, E
+import helpers.utils
 
 
 def overlap(G_i, G_j):
@@ -75,7 +75,9 @@ def test_overlap():
             s_4[i, j] = (
                 G_i.norm
                 * G_j.norm
-                * j_overlap(G_i.a, G_i.i, G_i.A, G_j.a, G_j.i, G_j.A)
+                * helpers.utils.overlap(
+                    G_i.a, G_i.i, G_i.A, G_j.a, G_j.i, G_j.A
+                )
             )
 
     np.testing.assert_allclose(s, s_2)
