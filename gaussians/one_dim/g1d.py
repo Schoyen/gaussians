@@ -85,6 +85,8 @@ class G1D:
         return (self.i, self.a, self.A, self.symbol)
 
     def decrement_i(self):
+        assert self.i > 0
+
         return G1D(self.i - 1, self.a, self.A, self.symbol)
 
     def increment_i(self):
