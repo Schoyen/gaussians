@@ -9,3 +9,4 @@ from .diff_mm_operator import (
     construct_multipole_moment_matrix_elements,
     construct_diff_mm_matrix_elements,
 )
+from .gaussian_operator import construct_gaussian_operator_matrix_elements
