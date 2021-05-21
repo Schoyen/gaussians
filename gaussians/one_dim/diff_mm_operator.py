@@ -5,6 +5,24 @@ from .g1d import G1D
 from .od1d import OD1D
 
 
+def construct_overlap_matrix_elements(gaussians: list):
+    return construct_diff_mm_matrix_elements(0, 0, 0, gaussians)
+
+
+def construct_kinetic_matrix_elements(gaussians: list):
+    return -0.5 * construct_diff_mm_matrix_elements(0, 2, 0, gaussians)
+
+
+def construct_differential_matrix_elements(f: int, gaussians: list):
+    return construct_diff_mm_matrix_elements(0, f, 0, gaussians)
+
+
+def construct_multipole_moment_matrix_elements(
+    e: int, C: float, gaussians: list
+):
+    return construct_diff_mm_matrix_elements(e, 0, C, gaussians)
+
+
 def construct_diff_mm_matrix_elements(
     e: int, f: int, C: float, gaussians: list
 ):
@@ -20,9 +38,6 @@ def construct_diff_mm_matrix_elements(
         for j in range(i + 1, l):
             g_j = gaussians[j]
             val = g_i.norm * g_j.norm * L(e, f, C, g_i, g_j)
-            val_2 = g_j.norm * g_i.norm * L(e, f, C, g_j, g_i)
-
-            assert abs(val - val_2) < 1e-12
 
             l_ef[i, j] = val
             l_ef[j, i] = val
