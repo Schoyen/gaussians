@@ -5,27 +5,29 @@ from .g1d import G1D
 from .od1d import OD1D
 
 
-def construct_overlap_matrix_elements(gaussians: list):
+def construct_overlap_matrix_elements(gaussians: list) -> np.ndarray:
     return construct_diff_mm_matrix_elements(0, 0, 0, gaussians)
 
 
-def construct_kinetic_matrix_elements(gaussians: list):
+def construct_kinetic_matrix_elements(gaussians: list) -> np.ndarray:
     return -0.5 * construct_diff_mm_matrix_elements(0, 2, 0, gaussians)
 
 
-def construct_differential_matrix_elements(f: int, gaussians: list):
+def construct_differential_matrix_elements(
+    f: int, gaussians: list
+) -> np.ndarray:
     return construct_diff_mm_matrix_elements(0, f, 0, gaussians)
 
 
 def construct_multipole_moment_matrix_elements(
     e: int, C: float, gaussians: list
-):
+) -> np.ndarray:
     return construct_diff_mm_matrix_elements(e, 0, C, gaussians)
 
 
 def construct_diff_mm_matrix_elements(
     e: int, f: int, C: float, gaussians: list
-):
+) -> np.ndarray:
     assert e >= 0 and f >= 0
 
     l = len(gaussians)
