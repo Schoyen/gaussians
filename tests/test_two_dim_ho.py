@@ -202,13 +202,15 @@ def test_two_dim_ho():
     # Compare single-particle functions to analytical cartesian 2D harmonic
     # oscillator basis functions.
     psi_00 = one_dim_ho_spf(0, X, omega) * one_dim_ho_spf(0, Y, omega)
-    np.testing.assert_allclose(psi_00, bs.spf[0], atol=1e-12)
+    np.testing.assert_allclose(
+        np.abs(psi_00) ** 2, np.abs(bs.spf[0]) ** 2, atol=1e-12
+    )
 
     psi_10 = one_dim_ho_spf(1, X, omega) * one_dim_ho_spf(0, Y, omega)
     psi_01 = one_dim_ho_spf(0, X, omega) * one_dim_ho_spf(1, Y, omega)
     np.testing.assert_allclose(
-        1 / np.sqrt(2) * (psi_10 + psi_01),
-        1 / np.sqrt(2) * (bs.spf[1] + bs.spf[2]),
+        1 / 2 * (np.abs(psi_10) ** 2 + np.abs(psi_01) ** 2),
+        1 / 2 * (np.abs(bs.spf[1]) ** 2 + np.abs(bs.spf[2]) ** 2),
         atol=1e-12,
     )
 
@@ -216,8 +218,16 @@ def test_two_dim_ho():
     psi_02 = one_dim_ho_spf(0, X, omega) * one_dim_ho_spf(2, Y, omega)
     psi_11 = one_dim_ho_spf(1, X, omega) * one_dim_ho_spf(1, Y, omega)
     np.testing.assert_allclose(
-        1 / np.sqrt(3) * (psi_20 + psi_02 + psi_11),
-        1 / np.sqrt(3) * (bs.spf[3] + bs.spf[4] + bs.spf[5]),
+        1
+        / 3
+        * (np.abs(psi_20) ** 2 + np.abs(psi_02) ** 2 + np.abs(psi_11) ** 2),
+        1
+        / 3
+        * (
+            np.abs(bs.spf[3]) ** 2
+            + np.abs(bs.spf[4]) ** 2
+            + np.abs(bs.spf[5]) ** 2
+        ),
         atol=1e-12,
     )
 
