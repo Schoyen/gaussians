@@ -26,8 +26,18 @@ def test_simplest_case():
 
 
 def test_symmetry_of_integrals():
-    gaussians = [G1D(0, 1), G1D(1, 1.5), G1D(2, 0.7), G1D(0, 0.5)]
-    wells = [G1D(0, 0.3), G1D(1, 1.2), G1D(2, 1.1)]
+    center = np.random.random()
+    gaussians = [
+        G1D(0, 1, A=center),
+        G1D(1, 1.5, A=center),
+        G1D(2, 0.7, A=center),
+        G1D(0, 0.5, A=center),
+    ]
+    wells = [
+        G1D(0, 0.3, A=center),
+        G1D(1, 1.2, A=center),
+        G1D(2, 1.1, A=center),
+    ]
 
     for well in wells:
 
@@ -47,9 +57,19 @@ def test_symmetry_of_integrals():
                 assert abs(val - val_6) < 1e-12
 
 
-def test_origin_center():
-    gaussians = [G1D(0, 1), G1D(1, 1.5), G1D(2, 0.7), G1D(0, 0.5)]
-    wells = [G1D(0, 0.3), G1D(1, 1.2), G1D(2, 1.1)]
+def test_common_center():
+    center = np.random.random()
+    gaussians = [
+        G1D(0, 1, A=center),
+        G1D(1, 1.5, A=center),
+        G1D(2, 0.7, A=center),
+        G1D(0, 0.5, A=center),
+    ]
+    wells = [
+        G1D(0, 0.3, A=center),
+        G1D(1, 1.2, A=center),
+        G1D(2, 1.1, A=center),
+    ]
     res_func = [
         lambda a: -np.sqrt(np.pi / a),
         lambda a: 0,
@@ -71,5 +91,5 @@ def test_origin_center():
 
                 g_test[i, j] = g_i.norm * g_j.norm * res_func[ang_sum](exp_sum)
 
-        np.testing.assert_allclose(g_e, g_test)
+        np.testing.assert_allclose(g_e, g_test, atol=1e-12)
         np.testing.assert_allclose(g_e, g_e.T)
