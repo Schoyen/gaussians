@@ -40,8 +40,6 @@ def P(t: int, op: G1D, g_l: G1D) -> float:
         od = OD1D(op, g_l)
         return od.E(0) * np.sqrt(np.pi / od.p)
 
-    return (
-        2 * g_l.a * P(t - 1, op, g_l.increment_i()) - 0
-        if g_l.i == 0
-        else g_l.i * P(t - 1, op, g_l.decrement_i())
+    return 2 * g_l.a * P(t - 1, op, g_l.increment_i()) - (
+        0 if g_l.i == 0 else g_l.i * P(t - 1, op, g_l.decrement_i())
     )
