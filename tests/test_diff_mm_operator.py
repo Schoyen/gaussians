@@ -30,6 +30,32 @@ def test_comparison_dm_1d():
         np.testing.assert_allclose(l_ef, l_ef_r)
 
 
+def test_comparison_dm_2d():
+    for i in range(3):
+        gaussians = [
+            G2D(
+                [np.random.choice(range(4)), np.random.choice(range(4))],
+                np.random.random() + 0.001,
+                [
+                    2 * (np.random.random() - 0.5),
+                    2 * (np.random.random() - 0.5),
+                ],
+            )
+            for i in range(5)
+        ]
+
+        e = tuple(np.random.choice(range(4)) for i in range(2))
+        f = tuple(np.random.choice(range(4)) for i in range(2))
+        centers = tuple(2 * (np.random.random() - 0.5) for i in range(2))
+
+        l_ef = dm_2d(e, f, centers, gaussians)
+        l_ef_r = tdl.construct_diff_mm_matrix_elements(
+            e, f, centers, [g.get_params() for g in gaussians]
+        )
+
+        np.testing.assert_allclose(l_ef, l_ef_r)
+
+
 def test_ang_mom_z():
     for i in range(3):
         gaussians = [
