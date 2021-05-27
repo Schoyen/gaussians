@@ -32,7 +32,7 @@ def G(op: G1D, g_i: G1D, g_j: G1D) -> float:
     for t in range(od.i + od.j + 1):
         val += od.E(t) * P(t, op, g_0)
 
-    return -val
+    return val
 
 
 def P(t: int, op: G1D, g_l: G1D) -> float:
