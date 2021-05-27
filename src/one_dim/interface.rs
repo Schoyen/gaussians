@@ -57,12 +57,12 @@ pub fn construct_kinetic_operator_matrix_elements<'a>(
 #[pyfunction]
 pub fn construct_differential_operator_matrix_elements<'a>(
     py: Python<'a>,
-    e: u32,
+    f: u32,
     g1d_params: &'a PySequence,
 ) -> &'a PyArray2<f64> {
     let gaussians = set_up_g1d_vec(g1d_params);
     let d_e = gs_lib::one_dim::construct_differential_operator_matrix_elements(
-        e, &gaussians,
+        f, &gaussians,
     );
 
     d_e.to_pyarray(py)
