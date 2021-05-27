@@ -14,4 +14,6 @@ from .diff_mm_operator import (
     construct_diff_mm_matrix_elements,
 )
 
+from .gaussian_operator import construct_gaussian_operator_matrix_elements
+
 from .coulomb_elements import construct_coulomb_matrix_elements
