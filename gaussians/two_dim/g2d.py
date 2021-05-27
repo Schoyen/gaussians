@@ -28,4 +28,4 @@ class G2D:
         return str(self.G_x) + " * " + str(self.G_y)
 
     def get_params(self):
-        return (self.alpha, self.a, tuple(self.A))
+        return (tuple(self.alpha), self.a, tuple(self.A))
