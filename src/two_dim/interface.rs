@@ -73,6 +73,18 @@ pub fn construct_differential_operator_matrix_elements<'a>(
 }
 
 #[pyfunction]
+pub fn construct_angular_moment_z_matrix_elements<'a>(
+    py: Python<'a>,
+    g2d_params: &'a PySequence,
+) -> &'a PyArray2<f64> {
+    let gaussians = set_up_g2d_vec(g2d_params);
+    let l_z =
+        gs_lib::two_dim::construct_angular_moment_z_matrix_elements(&gaussians);
+
+    l_z.to_pyarray(py)
+}
+
+#[pyfunction]
 pub fn construct_coulomb_operator_matrix_elements<'a>(
     py: Python<'a>,
     g2d_params: &'a PySequence,
@@ -95,6 +107,9 @@ fn two_dim_lib(_py: Python, m: &PyModule) -> PyResult<()> {
     ))?;
     m.add_wrapped(wrap_pyfunction!(
         construct_differential_operator_matrix_elements
+    ))?;
+    m.add_wrapped(wrap_pyfunction!(
+        construct_angular_moment_z_matrix_elements
     ))?;
     m.add_wrapped(wrap_pyfunction!(
         construct_coulomb_operator_matrix_elements
