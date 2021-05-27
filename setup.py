@@ -14,9 +14,6 @@ setup(
     ],
     rust_extensions=[
         RustExtension(
-            "gaussians.gaussian_lib", "Cargo.toml", binding=Binding.PyO3
-        ),
-        RustExtension(
             "gaussians.one_dim_lib", "Cargo.toml", binding=Binding.PyO3
         ),
         RustExtension(
