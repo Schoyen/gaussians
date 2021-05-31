@@ -1,10 +1,11 @@
 import numpy as np
 import scipy.special
 
+from .g2d import G2D
 from .od2d import OD2D
 
 
-def construct_coulomb_matrix_elements(gaussians: list):
+def construct_coulomb_interaction_matrix_elements(gaussians: list):
     l = len(gaussians)
 
     u = np.zeros((l, l, l, l))
@@ -18,13 +19,17 @@ def construct_coulomb_matrix_elements(gaussians: list):
                         * G_b.norm
                         * G_c.norm
                         * G_d.norm
-                        * construct_coulomb_matrix_element(G_a, G_b, G_c, G_d)
+                        * construct_coulomb_interaction_matrix_element(
+                            G_a, G_b, G_c, G_d
+                        )
                     )
 
     return u
 
 
-def construct_coulomb_matrix_element(G_a, G_b, G_c, G_d):
+def construct_coulomb_interaction_matrix_element(
+    G_a: G2D, G_b: G2D, G_c: G2D, G_d: G2D
+) -> float:
     O_ac = OD2D(G_a, G_c)
     O_bd = OD2D(G_b, G_d)
 
@@ -34,105 +39,73 @@ def construct_coulomb_matrix_element(G_a, G_b, G_c, G_d):
     Q = O_bd.P
 
     sigma = (p + q) / (4 * p * q)
+    arg = 1 / (4 * sigma)
     delta = Q - P
 
     val = 0
 
     for t in range(O_ac.x_sum_lim + 1):
         for u in range(O_ac.y_sum_lim + 1):
-            E_ac = O_ac.E(t, u)
-            # E_ac = (-1) ** (t + u) * O_ac.E(t, u)
+            # E_ac = O_ac.E(t, u)
+            E_ac = (-1) ** (t + u) * O_ac.E(t, u)
             for tau in range(O_bd.x_sum_lim + 1):
                 for nu in range(O_bd.y_sum_lim + 1):
-                    E_bd = (-1) ** (tau + nu) * O_bd.E(tau, nu)
-                    # E_bd = O_bd.E(tau, nu)
+                    # E_bd = (-1) ** (tau + nu) * O_bd.E(tau, nu)
+                    E_bd = O_bd.E(tau, nu)
 
-                    val += E_ac * E_bd * I_tilde(t + tau, u + nu, sigma, delta)
+                    val += E_ac * E_bd * I_twiddle(t + tau, u + nu, arg, delta)
 
     return np.pi ** 2 / (p * q) * np.sqrt(np.pi / (4 * sigma)) * val
 
 
-def I_tilde(t, u, sigma, delta):
-    return _I_tilde(0, t, u, sigma, delta)
+def I_twiddle(t: int, u: int, p: float, sigma: np.ndarray) -> float:
+    return _I_twiddle(0, t, u, p, sigma)
 
 
-def _I_tilde(n, t, u, sigma, delta):
-    assert n >= 0
+def _I_twiddle(n: int, t: int, u: int, p: float, sigma: np.ndarray) -> float:
+    assert n >= -1
+    assert t >= -1
+    assert u >= -1
 
     if t < 0 or u < 0:
         return 0
 
+    if n == -1:
+        return _I_twiddle(-n, t, u, p, sigma)
+
     if t == u == 0:
-        return extended_bessel(n, sigma, delta)
+        arg = -p * np.sum(sigma ** 2) / 2
+        return scipy.special.ive(n, arg)
 
-    pre_factor = 1 / (8 * sigma)
+    pre_factor = -p / 2
 
-    val = 0
-
-    if n == 0:
-        pre_factor *= 2
-
-        if t == 0:
-            val += delta[1] * (
-                _I_tilde(n, t, u - 1, sigma, delta)
-                + _I_tilde(n + 1, t, u - 1, sigma, delta)
+    if t > 0:
+        return pre_factor * (
+            (t - 1)
+            * (
+                _I_twiddle(n - 1, t - 2, u, p, sigma)
+                + 2 * _I_twiddle(n, t - 2, u, p, sigma)
+                + _I_twiddle(n + 1, t - 2, u, p, sigma)
             )
-
-            if u > 1:
-                val += -(u - 1) * (
-                    _I_tilde(n, t, u - 2, sigma, delta)
-                    + _I_tilde(n + 1, t, u - 2, sigma, delta)
-                )
-
-            return val * pre_factor
-
-        val += delta[0] * (
-            _I_tilde(n, t - 1, u, sigma, delta)
-            + _I_tilde(n + 1, t - 1, u, sigma, delta)
+            + sigma[0]
+            * (
+                _I_twiddle(n - 1, t - 1, u, p, sigma)
+                + 2 * _I_twiddle(n, t - 1, u, p, sigma)
+                + _I_twiddle(n + 1, t - 1, u, p, sigma)
+            )
         )
 
-        if t > 1:
-            val += -(t - 1) * (
-                _I_tilde(n, t - 2, u, sigma, delta)
-                + _I_tilde(n + 1, t - 2, u, sigma, delta)
-            )
-
-        return val * pre_factor
-
-    if t == 0:
-        val += delta[1] * (
-            _I_tilde(n - 1, t, u - 1, sigma, delta)
-            + 2 * _I_tilde(n, t, u - 1, sigma, delta)
-            + _I_tilde(n + 1, t, u - 1, sigma, delta)
+    return pre_factor * (
+        (u - 1)
+        * (
+            _I_twiddle(n - 1, t, u - 2, p, sigma)
+            + 2 * _I_twiddle(n, t, u - 2, p, sigma)
+            + _I_twiddle(n + 1, t, u - 2, p, sigma)
         )
-
-        if u > 1:
-            val += -(u - 1) * (
-                _I_tilde(n - 1, t, u - 2, sigma, delta)
-                + 2 * _I_tilde(n, t, u - 2, sigma, delta)
-                + _I_tilde(n + 1, t, u - 2, sigma, delta)
-            )
-
-        return val * pre_factor
-
-    val += delta[0] * (
-        _I_tilde(n - 1, t - 1, u, sigma, delta)
-        + 2 * _I_tilde(n, t - 1, u, sigma, delta)
-        + _I_tilde(n + 1, t - 1, u, sigma, delta)
+        + sigma[1]
+        * (
+            _I_twiddle(n - 1, t, u - 1, p, sigma)
+            + 2 * _I_twiddle(n, t, u - 1, p, sigma)
+            + _I_twiddle(n + 1, t, u - 1, p, sigma)
+        )
     )
-
-    if t > 1:
-        val += -(t - 1) * (
-            _I_tilde(n - 1, t - 2, u, sigma, delta)
-            + 2 * _I_tilde(n, t - 2, u, sigma, delta)
-            + _I_tilde(n + 1, t - 2, u, sigma, delta)
-        )
-
-    return val * pre_factor
-
-
-def extended_bessel(n, sigma, delta):
-    delta_sq = delta[0] ** 2 + delta[1] ** 2
-    arg = -delta_sq / (8 * sigma)
-
-    return scipy.special.ive(n, arg)

@@ -13,11 +13,118 @@ from hartree_fock import GHF
 
 from gaussians import G2D
 from gaussians.two_dim import (
-    construct_coulomb_matrix_elements,
+    construct_coulomb_interaction_matrix_elements,
     construct_kinetic_matrix_elements,
     construct_overlap_matrix_elements,
     construct_multipole_moment_matrix_elements,
 )
+from gaussians.two_dim.coulomb_elements import I_twiddle
+
+import gaussians.two_dim_lib as tdl
+
+import helpers.coulomb_elements
+
+
+def test_rec_int():
+    t = 0
+    u = 0
+
+    p = 1
+    sigma = np.random.random(2)
+
+    assert (
+        abs(
+            abs(helpers.coulomb_elements.I_tilde(t, u, p, sigma))
+            - abs(I_twiddle(t, u, 1 / (4 * p), sigma))
+        )
+        < 1e-12
+    )
+
+    t = 0
+    u = 1
+
+    p = 1
+    sigma = np.random.random(2)
+
+    assert (
+        abs(
+            abs(helpers.coulomb_elements.I_tilde(t, u, p, sigma))
+            - abs(I_twiddle(t, u, 1 / (4 * p), sigma))
+        )
+        < 1e-12
+    )
+
+    t = 1
+    u = 0
+
+    p = 1
+    sigma = np.random.random(2)
+
+    assert (
+        abs(
+            abs(helpers.coulomb_elements.I_tilde(t, u, p, sigma))
+            - abs(I_twiddle(t, u, 1 / (4 * p), sigma))
+        )
+        < 1e-12
+    )
+
+    t = 1
+    u = 1
+
+    p = 1
+    sigma = np.random.random(2)
+
+    assert (
+        abs(
+            abs(helpers.coulomb_elements.I_tilde(t, u, p, sigma))
+            - abs(I_twiddle(t, u, 1 / (4 * p), sigma))
+        )
+        < 1e-12
+    )
+
+    t = 1
+    u = 2
+
+    p = 1
+    sigma = np.random.random(2)
+
+    assert (
+        abs(
+            abs(helpers.coulomb_elements.I_tilde(t, u, p, sigma))
+            - abs(I_twiddle(t, u, 1 / (4 * p), sigma))
+        )
+        < 1e-12
+    )
+
+    t = 2
+    u = 1
+
+    p = 1
+    sigma = np.random.random(2)
+
+    assert (
+        abs(
+            abs(helpers.coulomb_elements.I_tilde(t, u, p, sigma))
+            - abs(I_twiddle(t, u, 1 / (4 * p), sigma))
+        )
+        < 1e-12
+    )
+
+    for i in range(10):
+        t = np.random.randint(5)
+        u = np.random.randint(5)
+
+        p = np.random.random() + 0.1
+        sigma = np.random.random(2)
+
+        print(i)
+        assert (
+            abs(
+                abs(helpers.coulomb_elements.I_tilde(t, u, p, sigma))
+                - abs(I_twiddle(t, u, 1 / (4 * p), sigma))
+            )
+            < 1e-12
+        )
 
 
 def test_construction():
@@ -28,8 +135,18 @@ def test_construction():
         G2D((1, 1), 1, (0.4, -0.2)),
     ]
 
-    u = construct_coulomb_matrix_elements(gaussians)
+    u = construct_coulomb_interaction_matrix_elements(gaussians)
+    u_2 = (
+        helpers.coulomb_elements.construct_coulomb_interaction_matrix_elements(
+            gaussians
+        )
+    )
+    u_r = tdl.construct_coulomb_operator_matrix_elements(
+        [g.get_params() for g in gaussians]
+    )
 
+    np.testing.assert_allclose(u, u_2)
+    np.testing.assert_allclose(u, u_r)
     np.testing.assert_allclose(u, u.transpose(2, 3, 0, 1))
     np.testing.assert_allclose(u, u.transpose(2, 1, 0, 3))
     np.testing.assert_allclose(u, u.transpose(0, 3, 2, 1))
@@ -75,7 +192,13 @@ def test_two_dim_ho():
     )
     h = t + v
     s = construct_overlap_matrix_elements(gaussians)
-    u = construct_coulomb_matrix_elements(gaussians)
+    u = construct_coulomb_interaction_matrix_elements(gaussians)
+    u_2 = (
+        helpers.coulomb_elements.construct_coulomb_interaction_matrix_elements(
+            gaussians
+        )
+    )
+    np.testing.assert_allclose(u, u_2)
 
     gos = BasisSet(len(gaussians), dim=2)
     gos.h = h
