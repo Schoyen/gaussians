@@ -10,7 +10,6 @@ setup(
         "numpy",
         "scipy",
         "numba",
-        "tqdm",
     ],
     rust_extensions=[
         RustExtension(

@@ -8,9 +8,8 @@ def construct_coulomb_matrix_elements(gaussians: list):
     l = len(gaussians)
 
     u = np.zeros((l, l, l, l))
-    import tqdm
 
-    for a, G_a in tqdm.tqdm(enumerate(gaussians), total=len(gaussians) - 1):
+    for a, G_a in enumerate(gaussians):
         for b, G_b in enumerate(gaussians):
             for c, G_c in enumerate(gaussians):
                 for d, G_d in enumerate(gaussians):
