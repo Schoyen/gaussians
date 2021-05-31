@@ -70,14 +70,9 @@ def test_off_centered_ho():
         )
     )
 
-    import time
-
     h = t + v
     s = construct_overlap_matrix_elements(gaussians)
-    t_0 = time.time()
     u = construct_coulomb_interaction_matrix_elements(gaussians)
-    t_1 = time.time()
-    print(f"Time Python: {t_1 - t_0} sec")
 
     t_r = tdl.construct_kinetic_operator_matrix_elements(g_params)
     v_r = (
@@ -94,10 +89,7 @@ def test_off_centered_ho():
     )
     h_r = t_r + v_r
     s_r = tdl.construct_overlap_matrix_elements(g_params)
-    t_0 = time.time()
     u_r = tdl.construct_coulomb_operator_matrix_elements(g_params)
-    t_1 = time.time()
-    print(f"Time Rust: {t_1 - t_0} sec")
 
     np.testing.assert_allclose(t, t_r, atol=1e-14)
     np.testing.assert_allclose(v, v_r)
