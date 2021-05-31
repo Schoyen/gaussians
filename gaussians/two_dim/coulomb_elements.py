@@ -10,19 +10,108 @@ def construct_coulomb_interaction_matrix_elements(gaussians: list):
 
     u = np.zeros((l, l, l, l))
 
-    for a, G_a in enumerate(gaussians):
-        for b, G_b in enumerate(gaussians):
-            for c, G_c in enumerate(gaussians):
-                for d, G_d in enumerate(gaussians):
-                    u[a, b, c, d] = (
-                        G_a.norm
-                        * G_b.norm
-                        * G_c.norm
-                        * G_d.norm
+    for a, g_a in enumerate(gaussians):
+        u[
+            a, a, a, a
+        ] = g_a.norm ** 4 * construct_coulomb_interaction_matrix_element(
+            g_a, g_a, g_a, g_a
+        )
+
+        for b, g_b in enumerate(gaussians):
+            if b == a:
+                continue
+
+            val = (
+                g_a.norm
+                * g_b.norm ** 3
+                * construct_coulomb_interaction_matrix_element(
+                    g_a, g_b, g_b, g_b
+                )
+            )
+
+            u[a, b, b, b] = val
+            u[b, a, b, b] = val
+            u[b, b, a, b] = val
+            u[b, b, b, a] = val
+
+            val = (
+                g_a.norm ** 2
+                * g_b.norm ** 2
+                * construct_coulomb_interaction_matrix_element(
+                    g_a, g_b, g_a, g_b
+                )
+            )
+
+            u[a, b, a, b] = val
+            u[b, a, b, a] = val
+
+            val = (
+                g_a.norm ** 2
+                * g_b.norm ** 2
+                * construct_coulomb_interaction_matrix_element(
+                    g_a, g_a, g_b, g_b
+                )
+            )
+
+            u[a, a, b, b] = val
+            u[b, b, a, a] = val
+            u[a, b, b, a] = val
+            u[b, a, a, b] = val
+
+            for c, g_c in enumerate(gaussians):
+                if c == b or c == a:
+                    continue
+
+                val = (
+                    g_a.norm ** 2
+                    * g_b.norm
+                    * g_c.norm
+                    * construct_coulomb_interaction_matrix_element(
+                        g_a, g_b, g_a, g_c
+                    )
+                )
+
+                u[a, b, a, c] = val
+                u[b, a, c, a] = val
+                u[a, c, a, b] = val
+                u[c, a, b, a] = val
+
+                val = (
+                    g_a.norm ** 2
+                    * g_b.norm
+                    * g_c.norm
+                    * construct_coulomb_interaction_matrix_element(
+                        g_a, g_a, g_b, g_c
+                    )
+                )
+
+                u[a, a, b, c] = val
+                u[a, a, c, b] = val
+                u[b, c, a, a] = val
+                u[c, b, a, a] = val
+                u[a, b, c, a] = val
+                u[b, a, a, c] = val
+                u[c, a, a, b] = val
+                u[a, c, b, a] = val
+
+                for d, g_d in enumerate(gaussians):
+                    if d == c or d == b or d == a:
+                        continue
+
+                    val = (
+                        g_a.norm
+                        * g_b.norm
+                        * g_c.norm
+                        * g_d.norm
                         * construct_coulomb_interaction_matrix_element(
-                            G_a, G_b, G_c, G_d
+                            g_a, g_b, g_c, g_d
                         )
                     )
+
+                    u[a, b, c, d] = val
+                    u[b, a, d, c] = val
+                    u[c, d, a, b] = val
+                    u[d, c, b, a] = val
 
     return u
 
