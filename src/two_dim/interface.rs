@@ -120,6 +120,22 @@ pub fn construct_gaussian_operator_matrix_elements<'a>(
 }
 
 #[pyfunction]
+pub fn construct_coulomb_attraction_operator_matrix_elements<'a>(
+    py: Python<'a>,
+    center: &'a PySequence,
+    g2d_params: &'a PySequence,
+) -> &'a PyArray2<f64> {
+    let gaussians = set_up_g2d_vec(g2d_params);
+    let v_ab =
+        gs_lib::two_dim::construct_coulomb_attraction_operator_matrix_elements(
+            center.extract::<(f64, f64)>().unwrap(),
+            &gaussians,
+        );
+
+    v_ab.to_pyarray(py)
+}
+
+#[pyfunction]
 pub fn construct_coulomb_interaction_operator_matrix_elements<'a>(
     py: Python<'a>,
     g2d_params: &'a PySequence,
@@ -151,6 +167,9 @@ fn two_dim_lib(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(construct_diff_mm_matrix_elements))?;
     m.add_wrapped(wrap_pyfunction!(
         construct_gaussian_operator_matrix_elements
+    ))?;
+    m.add_wrapped(wrap_pyfunction!(
+        construct_coulomb_attraction_operator_matrix_elements
     ))?;
     m.add_wrapped(wrap_pyfunction!(
         construct_coulomb_interaction_operator_matrix_elements
