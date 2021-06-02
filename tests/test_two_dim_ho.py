@@ -89,7 +89,7 @@ def test_off_centered_ho():
     )
     h_r = t_r + v_r
     s_r = tdl.construct_overlap_matrix_elements(g_params)
-    u_r = tdl.construct_coulomb_operator_matrix_elements(g_params)
+    u_r = tdl.construct_coulomb_interaction_operator_matrix_elements(g_params)
 
     np.testing.assert_allclose(t, t_r, atol=1e-14)
     np.testing.assert_allclose(v, v_r)
@@ -177,7 +177,7 @@ def test_two_dim_ho():
     )
     h_r = t_r + v_r
     s_r = tdl.construct_overlap_matrix_elements(g_params)
-    u_r = tdl.construct_coulomb_operator_matrix_elements(g_params)
+    u_r = tdl.construct_coulomb_interaction_operator_matrix_elements(g_params)
 
     np.testing.assert_allclose(t, t_r, atol=1e-14)
     np.testing.assert_allclose(v, v_r)

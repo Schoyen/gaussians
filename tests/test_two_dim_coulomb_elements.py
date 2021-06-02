@@ -141,7 +141,7 @@ def test_construction():
             gaussians
         )
     )
-    u_r = tdl.construct_coulomb_operator_matrix_elements(
+    u_r = tdl.construct_coulomb_interaction_operator_matrix_elements(
         [g.get_params() for g in gaussians]
     )
 
