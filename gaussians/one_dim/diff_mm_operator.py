@@ -35,14 +35,10 @@ def construct_diff_mm_matrix_elements(
 
     for i in range(l):
         g_i = gaussians[i]
-        l_ef[i, i] = g_i.norm ** 2 * L(e, f, C, g_i, g_i)
 
-        for j in range(i + 1, l):
+        for j in range(l):
             g_j = gaussians[j]
-            val = g_i.norm * g_j.norm * L(e, f, C, g_i, g_j)
-
-            l_ef[i, j] = val
-            l_ef[j, i] = val
+            l_ef[i, j] = g_i.norm * g_j.norm * L(e, f, C, g_i, g_j)
 
     return l_ef
 

@@ -11,6 +11,31 @@ import gaussians.one_dim_lib as odl
 import helpers.differential_operator
 
 
+def test_momentum_elements():
+    gaussians = [
+        G1D(i, np.random.random() + 0.1, 2 * (np.random.random() - 0.5))
+        for i in range(4)
+    ]
+
+    p = helpers.differential_operator.construct_differential_matrix_elements(
+        1, gaussians
+    )
+    p_2 = construct_diff_mm_matrix_elements(0, 1, 0, gaussians)
+    p_r = odl.construct_diff_mm_matrix_elements(
+        0, 1, 0, [g.get_params() for g in gaussians]
+    )
+
+    np.testing.assert_allclose(p, p_2, atol=1e-12)
+    np.testing.assert_allclose(p_2, p_r, atol=1e-12)
+
+    for i in range(len(gaussians)):
+        for j in range(len(gaussians)):
+            if i == j:
+                continue
+
+            assert abs(p_2[i, j] + p_2[j, i]) < 1e-12
+
+
 def test_kinetic_elements():
     gaussians = [G1D(0, 1, 0.5), G1D(0, 0.5, 0), G1D(1, 1, 0), G1D(2, 1, 0)]
 
