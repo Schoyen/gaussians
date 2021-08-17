@@ -9,9 +9,12 @@ from gaussians.one_dim import (
     construct_kinetic_matrix_elements,
     construct_differential_matrix_elements,
     construct_multipole_moment_matrix_elements,
+    construct_shielded_coulomb_interaction_matrix_elements,
 )
 
 import gaussians.one_dim_lib as odl
+
+from quantum_systems import ODQD, BasisSet
 
 
 @pytest.fixture
@@ -88,3 +91,57 @@ def test_rust_one_dim_lib():
     np.testing.assert_allclose(v, v_r)
     np.testing.assert_allclose(s, s_r)
     np.testing.assert_allclose(h, h_r)
+
+
+def test_odho_qs_comparison():
+    l = 6
+    omega = 0.5
+    grid_length = 10
+    num_grid_points = 2001
+
+    a = 0.25
+    alpha = 1.0
+
+    odho = ODQD(
+        l,
+        grid_length,
+        num_grid_points,
+        a=a,
+        alpha=alpha,
+        potential=ODQD.HOPotential(omega),
+    )
+
+    grid = odho.grid
+
+    gaussians = [G1D(i, omega / 2, 0) for i in range(l)]
+
+    t = -0.5 * construct_differential_matrix_elements(2, gaussians)
+    v = (
+        0.5
+        * omega ** 2
+        * construct_multipole_moment_matrix_elements(2, 0, gaussians)
+    )
+    s = construct_overlap_matrix_elements(gaussians)
+    spf = np.asarray([g(grid, with_norm=True) for g in gaussians])
+    spf[:, 0] = 0
+    spf[:, -1] = 0
+    u = construct_shielded_coulomb_interaction_matrix_elements(
+        spf, grid, alpha, a
+    )
+
+    odg = BasisSet(l, dim=1)
+    odg.h = t + v
+    odg.s = s
+    odg.spf = spf
+    odg.u = u
+
+    eps, C = scipy.linalg.eigh(odg.h, odg.s)
+
+    odg.change_basis(C)
+
+    np.testing.assert_allclose(odho.h, odg.h, atol=1e-4)
+    # Note, we test the absolute value as the basis change for odg can give a
+    # phase difference for the single-particle states.
+    # This will then lead to potential sign changes for the Coulomb interaction
+    # elements as compared to the finite difference scheme used for odho.
+    np.testing.assert_allclose(np.abs(odho.u), np.abs(odg.u), atol=1e-4)
