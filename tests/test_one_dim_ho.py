@@ -96,8 +96,8 @@ def test_rust_one_dim_lib():
 def test_odho_qs_comparison():
     l = 6
     omega = 0.5
-    grid_length = 6
-    num_grid_points = 1001
+    grid_length = 10
+    num_grid_points = 2001
 
     a = 0.25
     alpha = 1.0
@@ -139,19 +139,9 @@ def test_odho_qs_comparison():
 
     odg.change_basis(C)
 
-    import matplotlib.pyplot as plt
-
-    for i in range(l):
-        plt.plot(grid, odho.spf[i].real, label=rf"odho {i}")
-        plt.plot(grid, odg.spf[i].real, "--", label=rf"odg {i}")
-
-    plt.grid()
-    plt.legend()
-    plt.show()
-
-    np.testing.assert_allclose(odho.h, odg.h, atol=1e-2)
-    # np.testing.assert_allclose(odho.u, odg.u, atol=1e-2)
-
-
-if __name__ == "__main__":
-    test_odho_qs_comparison()
+    np.testing.assert_allclose(odho.h, odg.h, atol=1e-4)
+    # Note, we test the absolute value as the basis change for odg can give a
+    # phase difference for the single-particle states.
+    # This will then lead to potential sign changes for the Coulomb interaction
+    # elements as compared to the finite difference scheme used for odho.
+    np.testing.assert_allclose(np.abs(odho.u), np.abs(odg.u), atol=1e-4)
