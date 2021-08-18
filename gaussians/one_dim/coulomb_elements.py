@@ -29,7 +29,7 @@ def _construct_inner_shielded_coulomb_integral(spf, grid, alpha, a):
         for s in range(l):
             for i in range(num_grid_points):
                 inner_integral[q, s, i] = _trapz(
-                    np.conjugate(spf[q])
+                    spf[q]
                     * _shielded_coulomb(grid[i], grid, alpha, a)
                     * spf[s],
                     grid,
@@ -52,7 +52,7 @@ def construct_shielded_coulomb_interaction_matrix_elements(spf, grid, alpha, a):
             for r in range(l):
                 for s in range(l):
                     u[p, q, r, s] = _trapz(
-                        np.conjugate(spf[p]) * inner_integral[q, s] * spf[r],
+                        spf[p] * inner_integral[q, s] * spf[r],
                         grid,
                     )
 
