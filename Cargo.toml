@@ -12,5 +12,5 @@ numpy = "*"
 gs-lib = { git = "ssh://git@github.com/Schoyen/gs-lib.git" }
 
 [dependencies.pyo3]
-version = "*"
+version = "0.14.5"
 features = ["extension-module"]
