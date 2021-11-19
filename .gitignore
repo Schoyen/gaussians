@@ -133,3 +133,6 @@ dmypy.json
 
 # Cargo lock
 Cargo.lock
+
+# Mac crap
+.DS_Store
