@@ -9,7 +9,7 @@ def kinetic(G_i, G_j):
     j = G_j.i
     B = G_j.A
 
-    kin = 4 * b ** 2 * S(0, 0, G_i, G1D(j + 2, b, B))
+    kin = 4 * b**2 * S(0, 0, G_i, G1D(j + 2, b, B))
     kin -= 2 * b * (2 * j + 1) * S(0, 0, G_i, G_j)
     kin += j * (j - 1) * S(0, 0, G_i, G1D(j - 2, b, B)) if j > 1 else 0
 

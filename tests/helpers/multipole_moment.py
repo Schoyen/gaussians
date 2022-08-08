@@ -80,7 +80,7 @@ def construct_multipole_moment_matrix_elements(
 
     for i in range(l):
         G_i = gaussians[i]
-        s_e[i, i] = G_i.norm ** 2 * S(e, C, G_i, G_i)
+        s_e[i, i] = G_i.norm**2 * S(e, C, G_i, G_i)
 
         for j in range(i + 1, l):
             G_j = gaussians[j]

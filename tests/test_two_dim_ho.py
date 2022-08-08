@@ -27,9 +27,9 @@ import gaussians.two_dim_lib as tdl
 def one_dim_ho_spf(n, x, omega):
     return (
         1
-        / np.sqrt(2 ** n * math.factorial(n))
+        / np.sqrt(2**n * math.factorial(n))
         * (omega / np.pi) ** (1 / 4)
-        * np.exp(-omega / 2 * x ** 2)
+        * np.exp(-omega / 2 * x**2)
         * scipy.special.eval_hermite(n, x)
     )
 
@@ -59,7 +59,7 @@ def test_off_centered_ho():
     t = construct_kinetic_matrix_elements(gaussians)
     v = (
         0.5
-        * omega ** 2
+        * omega**2
         * (
             construct_multipole_moment_matrix_elements(
                 [2, 0], center, gaussians
@@ -77,7 +77,7 @@ def test_off_centered_ho():
     t_r = tdl.construct_kinetic_operator_matrix_elements(g_params)
     v_r = (
         0.5
-        * omega ** 2
+        * omega**2
         * (
             tdl.construct_multipole_moment_matrix_elements(
                 (2, 0), center, g_params
@@ -147,7 +147,7 @@ def test_two_dim_ho():
     t = construct_kinetic_matrix_elements(gaussians)
     v = (
         0.5
-        * omega ** 2
+        * omega**2
         * (
             construct_multipole_moment_matrix_elements(
                 [2, 0], [0, 0], gaussians
@@ -165,7 +165,7 @@ def test_two_dim_ho():
     t_r = tdl.construct_kinetic_operator_matrix_elements(g_params)
     v_r = (
         0.5
-        * omega ** 2
+        * omega**2
         * (
             tdl.construct_multipole_moment_matrix_elements(
                 (2, 0), (0, 0), g_params

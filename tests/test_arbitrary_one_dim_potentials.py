@@ -12,7 +12,7 @@ class HOPotential:
         self.omega = omega
 
     def __call__(self, x):
-        return 0.5 * self.omega ** 2 * x ** 2
+        return 0.5 * self.omega**2 * x**2
 
 
 class DWPotentialSmooth:
@@ -26,7 +26,7 @@ class DWPotentialSmooth:
 
     def __call__(self, x):
         return (
-            (1.0 / (2 * self.a ** 2))
+            (1.0 / (2 * self.a**2))
             * (x + 0.5 * self.a) ** 2
             * (x - 0.5 * self.a) ** 2
         )
@@ -41,7 +41,7 @@ def test_ho_potential():
 
     v_mm = (
         0.5
-        * omega ** 2
+        * omega**2
         * construct_multipole_moment_matrix_elements(2, 0, gaussians)
     )
     v_num = construct_arbitrary_potential_elements(
@@ -64,7 +64,7 @@ def test_dw_smooth():
     x_2 = construct_multipole_moment_matrix_elements(2, 0, gaussians)
     x_4 = construct_multipole_moment_matrix_elements(4, 0, gaussians)
 
-    v_mm = 1 / (2 * a ** 2) * (x_4 - 0.5 * a ** 2 * x_2 + 1 / 16 * a ** 4 * s)
+    v_mm = 1 / (2 * a**2) * (x_4 - 0.5 * a**2 * x_2 + 1 / 16 * a**4 * s)
     v_num = construct_arbitrary_potential_elements(
         DWPotentialSmooth(a), gaussians, grid
     )

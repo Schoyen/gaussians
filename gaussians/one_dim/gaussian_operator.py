@@ -12,7 +12,7 @@ def construct_gaussian_operator_matrix_elements(
 
     for i in range(l):
         g_i = gaussians[i]
-        gop_k[i, i] = g_i.norm ** 2 * G(op, g_i, g_i)
+        gop_k[i, i] = g_i.norm**2 * G(op, g_i, g_i)
 
         for j in range(i + 1, l):
             g_j = gaussians[j]

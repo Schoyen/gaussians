@@ -180,7 +180,7 @@ def test_two_dim_ho():
     t = construct_kinetic_matrix_elements(gaussians)
     v = (
         0.5
-        * omega ** 2
+        * omega**2
         * (
             construct_multipole_moment_matrix_elements(
                 [2, 0], [0, 0], gaussians

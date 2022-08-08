@@ -20,7 +20,7 @@ class OD1D:
         # Reduced exponent
         self.mu = self.G_i.a * self.G_j.a / self.p
 
-        self.K_AB = np.exp(-self.mu * self.X_AB ** 2)
+        self.K_AB = np.exp(-self.mu * self.X_AB**2)
 
         self.coefficients = {(0, 0, 0): self.K_AB}
 

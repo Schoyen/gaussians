@@ -31,7 +31,7 @@ def R(
     R_PC = np.linalg.norm(PC)
 
     if t == u == v == 0:
-        return (-2 * p) ** n * boys(n, p * R_PC ** 2)
+        return (-2 * p) ** n * boys(n, p * R_PC**2)
 
     if t == u == 0:
         return (v - 1) * R(n + 1, t, u, v - 2, a, A, b, B, C) + PC[2] * R(

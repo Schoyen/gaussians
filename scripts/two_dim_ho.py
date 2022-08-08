@@ -68,8 +68,8 @@ v_ry = time_func(
     lang="Rust (y)",
 )
 
-v = 0.5 * omega ** 2 * (v_x + v_y)
-v_r = 0.5 * omega ** 2 * (v_rx + v_ry)
+v = 0.5 * omega**2 * (v_x + v_y)
+v_r = 0.5 * omega**2 * (v_rx + v_ry)
 
 np.testing.assert_allclose(v, v_r)
 

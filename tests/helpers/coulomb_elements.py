@@ -53,7 +53,7 @@ def construct_coulomb_interaction_matrix_element(
 
                     val += E_ac * E_bd * I_tilde(t + tau, u + nu, sigma, delta)
 
-    return np.pi ** 2 / (p * q) * np.sqrt(np.pi / (4 * sigma)) * val
+    return np.pi**2 / (p * q) * np.sqrt(np.pi / (4 * sigma)) * val
 
 
 def I_tilde(t, u, sigma, delta):

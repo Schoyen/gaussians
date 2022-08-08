@@ -32,7 +32,7 @@ def odho_hamiltonian():
     t = -0.5 * construct_differential_matrix_elements(2, gaussians)
     v = (
         0.5
-        * omega ** 2
+        * omega**2
         * construct_multipole_moment_matrix_elements(2, 0, gaussians)
     )
     s = construct_multipole_moment_matrix_elements(0, 0, gaussians)
@@ -65,7 +65,7 @@ def test_rust_one_dim_lib():
     t = construct_kinetic_matrix_elements(gaussians)
     v = (
         0.5
-        * omega ** 2
+        * omega**2
         * construct_multipole_moment_matrix_elements(2, 0, gaussians)
     )
     s = construct_overlap_matrix_elements(gaussians)
@@ -79,7 +79,7 @@ def test_rust_one_dim_lib():
     t_r = odl.construct_kinetic_operator_matrix_elements(g_params)
     v_r = (
         0.5
-        * omega ** 2
+        * omega**2
         * odl.construct_multipole_moment_matrix_elements(2, 0, g_params)
     )
     s_r = odl.construct_overlap_matrix_elements(g_params)

@@ -73,7 +73,7 @@ class G1D:
         x_A = x - self.A
         norm = self.norm if with_norm else 1
 
-        return norm * x_A ** self.i * np.exp(-self.a * x_A ** 2)
+        return norm * x_A**self.i * np.exp(-self.a * x_A**2)
 
     def __str__(self):
         return (

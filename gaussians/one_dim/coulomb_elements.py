@@ -16,7 +16,7 @@ def _trapz(f, x):
 
 @numba.njit(cache=True)
 def _shielded_coulomb(x_1, x_2, alpha, a):
-    return alpha / np.sqrt((x_1 - x_2) ** 2 + a ** 2)
+    return alpha / np.sqrt((x_1 - x_2) ** 2 + a**2)
 
 
 @numba.njit(cache=True)

@@ -13,7 +13,7 @@ def construct_coulomb_interaction_matrix_elements(gaussians: list):
     for a, g_a in enumerate(gaussians):
         u[
             a, a, a, a
-        ] = g_a.norm ** 4 * construct_coulomb_interaction_matrix_element(
+        ] = g_a.norm**4 * construct_coulomb_interaction_matrix_element(
             g_a, g_a, g_a, g_a
         )
 
@@ -23,7 +23,7 @@ def construct_coulomb_interaction_matrix_elements(gaussians: list):
 
             val = (
                 g_a.norm
-                * g_b.norm ** 3
+                * g_b.norm**3
                 * construct_coulomb_interaction_matrix_element(
                     g_a, g_b, g_b, g_b
                 )
@@ -35,8 +35,8 @@ def construct_coulomb_interaction_matrix_elements(gaussians: list):
             u[b, b, b, a] = val
 
             val = (
-                g_a.norm ** 2
-                * g_b.norm ** 2
+                g_a.norm**2
+                * g_b.norm**2
                 * construct_coulomb_interaction_matrix_element(
                     g_a, g_b, g_a, g_b
                 )
@@ -46,8 +46,8 @@ def construct_coulomb_interaction_matrix_elements(gaussians: list):
             u[b, a, b, a] = val
 
             val = (
-                g_a.norm ** 2
-                * g_b.norm ** 2
+                g_a.norm**2
+                * g_b.norm**2
                 * construct_coulomb_interaction_matrix_element(
                     g_a, g_a, g_b, g_b
                 )
@@ -63,7 +63,7 @@ def construct_coulomb_interaction_matrix_elements(gaussians: list):
                     continue
 
                 val = (
-                    g_a.norm ** 2
+                    g_a.norm**2
                     * g_b.norm
                     * g_c.norm
                     * construct_coulomb_interaction_matrix_element(
@@ -77,7 +77,7 @@ def construct_coulomb_interaction_matrix_elements(gaussians: list):
                 u[c, a, b, a] = val
 
                 val = (
-                    g_a.norm ** 2
+                    g_a.norm**2
                     * g_b.norm
                     * g_c.norm
                     * construct_coulomb_interaction_matrix_element(
@@ -144,7 +144,7 @@ def construct_coulomb_interaction_matrix_element(
 
                     val += E_ac * E_bd * I_twiddle(t + tau, u + nu, arg, delta)
 
-    return np.pi ** 2 / (p * q) * np.sqrt(np.pi / (4 * sigma)) * val
+    return np.pi**2 / (p * q) * np.sqrt(np.pi / (4 * sigma)) * val
 
 
 def I_twiddle(t: int, u: int, p: float, sigma: np.ndarray) -> float:
@@ -163,7 +163,7 @@ def _I_twiddle(n: int, t: int, u: int, p: float, sigma: np.ndarray) -> float:
         return _I_twiddle(-n, t, u, p, sigma)
 
     if t == u == 0:
-        arg = -p * np.sum(sigma ** 2) / 2
+        arg = -p * np.sum(sigma**2) / 2
         return scipy.special.ive(n, arg)
 
     pre_factor = -p / 2

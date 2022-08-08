@@ -71,12 +71,12 @@ def two_dim_grid_solver(potential):
     V = potential(X, Y)
     V = V.T
 
-    n = N ** 2
+    n = N**2
     a = 0.5
 
-    h_diag = a * 4 * np.ones(n) / (delta_x ** 2) + V.flatten("F")
-    h_off = -a * np.ones(n - 1) / (delta_x ** 2)
-    h_off_off = -a * np.ones(n - N) / (delta_x ** 2)
+    h_diag = a * 4 * np.ones(n) / (delta_x**2) + V.flatten("F")
+    h_off = -a * np.ones(n - 1) / (delta_x**2)
+    h_off_off = -a * np.ones(n - N) / (delta_x**2)
 
     k = 1
     for i in range(1, n - 1):
