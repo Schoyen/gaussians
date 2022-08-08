@@ -12,4 +12,5 @@ from .diff_mm_operator import (
 from .gaussian_operator import construct_gaussian_operator_matrix_elements
 from .coulomb_elements import (
     construct_shielded_coulomb_interaction_matrix_elements,
+    construct_shielded_coulomb_interaction_matrix_elements_dist,
 )

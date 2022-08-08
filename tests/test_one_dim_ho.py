@@ -10,6 +10,7 @@ from gaussians.one_dim import (
     construct_differential_matrix_elements,
     construct_multipole_moment_matrix_elements,
     construct_shielded_coulomb_interaction_matrix_elements,
+    construct_shielded_coulomb_interaction_matrix_elements_dist,
 )
 
 import gaussians.one_dim_lib as odl
@@ -125,6 +126,10 @@ def test_odho_qs_comparison():
     u = construct_shielded_coulomb_interaction_matrix_elements(
         gaussians, grid, alpha, a
     )
+    u_dist = construct_shielded_coulomb_interaction_matrix_elements_dist(
+        gaussians, gaussians, grid, alpha, a
+    )
+    np.testing.assert_allclose(u, u_dist, atol=1e-12)
     spf = np.asarray([g(grid, with_norm=True) for g in gaussians])
 
     odg = BasisSet(l, dim=1)

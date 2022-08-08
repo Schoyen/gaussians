@@ -68,3 +68,38 @@ def construct_shielded_coulomb_interaction_matrix_elements(
     return _construct_shielded_coulomb_interaction_matrix_elements(
         spf, grid, alpha, a
     )
+
+
+@numba.njit(cache=True)
+def _construct_shielded_coulomb_interaction_matrix_elements_dist(
+    spf_1, spf_2, grid, alpha, a
+):
+    l_1 = len(spf_1)
+    l_2 = len(spf_2)
+    inner_integral = _construct_inner_shielded_coulomb_integral(
+        spf_2, grid, alpha, a
+    )
+    u = np.zeros((l_1, l_2, l_1, l_2))
+
+    for p in range(l_1):
+        for q in range(l_2):
+            for r in range(l_1):
+                for s in range(l_2):
+                    u[p, q, r, s] = np.trapz(
+                        spf_1[p] * inner_integral[q, s] * spf_1[r],
+                        grid,
+                    )
+
+    return u
+
+
+def construct_shielded_coulomb_interaction_matrix_elements_dist(
+    gaussians_1, gaussians_2, grid, alpha, a
+):
+
+    spf_1 = np.asarray([g(grid, with_norm=True) for g in gaussians_1])
+    spf_2 = np.asarray([g(grid, with_norm=True) for g in gaussians_2])
+
+    return _construct_shielded_coulomb_interaction_matrix_elements_dist(
+        spf_1, spf_2, grid, alpha, a
+    )
