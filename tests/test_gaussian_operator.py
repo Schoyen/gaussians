@@ -44,7 +44,7 @@ def test_simplest_case_2d():
     gaussians = [G2D((0, 0), a), G2D((0, 0), b)]
     well = G2D((0, 0), c)
 
-    g_e = -go_2d(well, gaussians)
+    g_e = -go_2d(gaussians, (c, c))
     g_e_r = -tdl.construct_gaussian_operator_matrix_elements(
         [well.get_params()], [g.get_params() for g in gaussians]
     )
@@ -164,7 +164,7 @@ def test_common_center_2d():
     ]
 
     for well in wells:
-        g_e = -go_2d(well, gaussians)
+        g_e = -go_2d(gaussians, c=(well.a, well.a), center=well.A, k=well.alpha)
         g_e_r = -tdl.construct_gaussian_operator_matrix_elements(
             [well.get_params()], [g.get_params() for g in gaussians]
         )
