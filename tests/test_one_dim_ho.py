@@ -118,16 +118,14 @@ def test_odho_qs_comparison():
     t = -0.5 * construct_differential_matrix_elements(2, gaussians)
     v = (
         0.5
-        * omega ** 2
+        * omega**2
         * construct_multipole_moment_matrix_elements(2, 0, gaussians)
     )
     s = construct_overlap_matrix_elements(gaussians)
-    spf = np.asarray([g(grid, with_norm=True) for g in gaussians])
-    spf[:, 0] = 0
-    spf[:, -1] = 0
     u = construct_shielded_coulomb_interaction_matrix_elements(
-        spf, grid, alpha, a
+        gaussians, grid, alpha, a
     )
+    spf = np.asarray([g(grid, with_norm=True) for g in gaussians])
 
     odg = BasisSet(l, dim=1)
     odg.h = t + v

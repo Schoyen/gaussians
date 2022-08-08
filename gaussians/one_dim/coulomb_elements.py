@@ -39,7 +39,9 @@ def _construct_inner_shielded_coulomb_integral(spf, grid, alpha, a):
 
 
 @numba.njit(cache=True)
-def construct_shielded_coulomb_interaction_matrix_elements(spf, grid, alpha, a):
+def _construct_shielded_coulomb_interaction_matrix_elements(
+    spf, grid, alpha, a
+):
     # Note: The spf are normalized Gaussians evaluated on the grid.
     l = len(spf)
     inner_integral = _construct_inner_shielded_coulomb_integral(
@@ -57,3 +59,12 @@ def construct_shielded_coulomb_interaction_matrix_elements(spf, grid, alpha, a):
                     )
 
     return u
+
+
+def construct_shielded_coulomb_interaction_matrix_elements(
+    gaussians, grid, alpha, a
+):
+    spf = np.asarray([g(grid, with_norm=True) for g in gaussians])
+    return _construct_shielded_coulomb_interaction_matrix_elements(
+        spf, grid, alpha, a
+    )
