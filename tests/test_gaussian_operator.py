@@ -20,7 +20,7 @@ def test_simplest_case_1d():
     gaussians = [G1D(0, a), G1D(0, b)]
     well = G1D(0, c)
 
-    g_e = -go_1d(well, gaussians)
+    g_e = -go_1d(gaussians, c)
     g_e_r = -odl.construct_gaussian_operator_matrix_elements(
         [well.get_params()], [g.get_params() for g in gaussians]
     )
@@ -117,7 +117,7 @@ def test_common_center_1d():
     ]
 
     for well in wells:
-        g_e = -go_1d(well, gaussians)
+        g_e = -go_1d(gaussians, well.a, center=well.A, k=well.i)
         g_e_r = -odl.construct_gaussian_operator_matrix_elements(
             [well.get_params()], [g.get_params() for g in gaussians]
         )
