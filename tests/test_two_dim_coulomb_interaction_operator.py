@@ -18,7 +18,7 @@ from gaussians.two_dim import (
     construct_overlap_matrix_elements,
     construct_multipole_moment_matrix_elements,
 )
-from gaussians.two_dim.coulomb_elements import I_twiddle
+from gaussians.two_dim.coulomb_interaction_operator import I_twiddle
 
 import gaussians.two_dim_lib as tdl
 

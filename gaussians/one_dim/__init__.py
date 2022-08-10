@@ -10,7 +10,7 @@ from .diff_mm_operator import (
     construct_diff_mm_matrix_elements,
 )
 from .gaussian_operator import construct_gaussian_operator_matrix_elements
-from .coulomb_elements import (
+from .coulomb_interaction_operator import (
     construct_shielded_coulomb_interaction_matrix_elements,
     construct_shielded_coulomb_interaction_matrix_elements_dist,
 )
