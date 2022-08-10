@@ -1,5 +1,9 @@
+import numba
+
 import numpy as np
 import scipy.special
+
+import numba_scipy
 
 from .g2d import G2D
 from .od2d import OD2D
@@ -147,10 +151,12 @@ def construct_coulomb_interaction_matrix_element(
     return np.pi**2 / (p * q) * np.sqrt(np.pi / (4 * sigma)) * val
 
 
+@numba.njit
 def I_twiddle(t: int, u: int, p: float, sigma: np.ndarray) -> float:
     return _I_twiddle(0, t, u, p, sigma)
 
 
+@numba.njit
 def _I_twiddle(n: int, t: int, u: int, p: float, sigma: np.ndarray) -> float:
     assert n >= -1
     assert t >= -1
@@ -164,7 +170,7 @@ def _I_twiddle(n: int, t: int, u: int, p: float, sigma: np.ndarray) -> float:
 
     if t == u == 0:
         arg = -p * np.sum(sigma**2) / 2
-        return scipy.special.ive(n, arg)
+        return scipy.special.ive(float(n), arg)
 
     pre_factor = -p / 2
 

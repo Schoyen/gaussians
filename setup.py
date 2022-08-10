@@ -10,6 +10,7 @@ setup(
         "numpy",
         "scipy",
         "numba",
+        "numba_scipy",
     ],
     rust_extensions=[
         RustExtension(
