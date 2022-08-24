@@ -23,11 +23,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: webfactory/ssh-agent@v0.5.2
+    - uses: webfactory/ssh-agent@v0.5.4
       with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-    - name: Install GSL
-      run: sudo apt-get install libgsl0-dev
+          ssh-private-key: |
+            ${{ secrets.SSH_PRIVATE_KEY_GS_LIB }}
+            ${{ secrets.SSH_PRIVATE_KEY_AMOS_RS }}
     - name: Build
       run: cargo build --verbose
     - name: Run tests
