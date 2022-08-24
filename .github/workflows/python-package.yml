@@ -26,8 +26,7 @@ jobs:
     - uses: webfactory/ssh-agent@v0.5.4
       with:
           ssh-private-key: |
-            ${{ secrets.SSH_PRIVATE_KEY_GS_LIB }}
-            ${{ secrets.SSH_PRIVATE_KEY_AMOS_RS }}
+            ${{ secrets.SSH_PRIVATE_KEY }}
     - name: Build
       run: cargo build --verbose
     - name: Run tests
