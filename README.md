@@ -16,16 +16,8 @@ $ cat .cargo/config
 [net]
 git-fetch-with-cli = true
 ```
-You also need to install [GSL](https://www.gnu.org/software/gsl/) (the GNU scientific library).
-On Ubuntu you can do this via:
-```bash
-$ sudo apt install libgsl0-dev
-```
-and with Pacman there is:
-```bash
-$ sudo pacman -S gsl
-```
-Finally we can install the necessary dependencies using pip by running:
+
+To install the necessary development dependencies using pip , run:
 ```bash
 $ pip install -r requirements.txt
 ```
