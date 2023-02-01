@@ -2,8 +2,7 @@ setuptools-rust
 matplotlib
 pytest
 jupyter
-black
 black[jupyter]
-git+https://github.com/Schoyen/quantum-systems.git
-git+ssh://git@github.com/Schoyen/hartree-fock.git
-git+ssh://git@github.com/Schoyen/configuration-interaction.git
+git+https://github.com/HyQD/quantum-systems.git
+git+https://github.com/HyQD/hartree-fock.git
+git+https://github.com/HyQD/configuration-interaction.git
