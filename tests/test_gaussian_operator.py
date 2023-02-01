@@ -76,7 +76,6 @@ def test_symmetry_of_integrals():
     ]
 
     for well in wells:
-
         for i, g_i in enumerate(gaussians):
             for j, g_j in enumerate(gaussians):
                 val = g_i.norm * g_j.norm * G(well, g_i, g_j)

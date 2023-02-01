@@ -96,7 +96,6 @@ def _construct_shielded_coulomb_interaction_matrix_elements_dist(
 def construct_shielded_coulomb_interaction_matrix_elements_dist(
     gaussians_1, gaussians_2, grid, alpha, a
 ):
-
     spf_1 = np.asarray([g(grid, with_norm=True) for g in gaussians_1])
     spf_2 = np.asarray([g(grid, with_norm=True) for g in gaussians_2])
 

@@ -9,7 +9,6 @@ def construct_arbitrary_separable_potential_elements(
     x: np.array,
     y: np.array,
 ) -> np.ndarray:
-
     l = len(gaussians)
 
     pot_x = potential_x(x)

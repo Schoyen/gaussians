@@ -20,7 +20,6 @@ def R(
     B: np.ndarray,
     C: np.ndarray,
 ) -> float:
-
     if n < 0 or t < 0 or u < 0 or v < 0:
         return 0
 
