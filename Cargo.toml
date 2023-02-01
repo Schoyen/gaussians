@@ -9,7 +9,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 numpy = "*"
-gs-lib = { git = "ssh://git@github.com/Schoyen/gs-lib.git" }
+gs-lib = { git = "https://github.com/Schoyen/gs-lib.git" }
 
 [dependencies.pyo3]
 version = "*"
