@@ -41,7 +41,11 @@ To install the library you can now run:
 pip install .
 ```
 in your local clone.
-Otherwise, you can also install via git by:
+Otherwise, you can also install via git by (if an SSH key has been set up):
 ```bash
 pip install git+ssh://git@github.com/Schoyen/gaussians.git
+```
+Or using regular HTTPS:
+```bash
+pip install git+https://github.com/Schoyen/gaussians.git
 ```
