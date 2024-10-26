@@ -9,13 +9,6 @@ functions.
 ## Dependencies
 
 To install this package you first need (assuming you already have Python and pip installed) the Rust compiler. The easiest way to get Rust is found [here](https://www.rust-lang.org/tools/install).
-Next, in order to install [gs-lib](https://github.com/Schoyen/gs-lib) via Cargo (as long as this project is private) you need to configure Cargo to use git via the command-line and set up an ssh-key for your Github user.
-Edit the file `~/.cargo/config` such that you get these settings:
-```bash
-$ cat .cargo/config
-[net]
-git-fetch-with-cli = true
-```
 
 To install the necessary development dependencies using pip , run:
 ```bash
@@ -36,9 +29,13 @@ $ deactivate
 
 ## Installation
 
-To install the library you can now run:
+If you have cloned the repository you can now run:
 ```bash
 pip install .
+```
+or
+```bash
+pip install -e .
 ```
 in your local clone.
 Otherwise, you can also install via git by (if an SSH key has been set up):
