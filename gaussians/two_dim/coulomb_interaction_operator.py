@@ -15,10 +15,9 @@ def construct_coulomb_interaction_matrix_elements(gaussians: list):
     u = np.zeros((l, l, l, l))
 
     for a, g_a in enumerate(gaussians):
-        u[
-            a, a, a, a
-        ] = g_a.norm**4 * construct_coulomb_interaction_matrix_element(
-            g_a, g_a, g_a, g_a
+        u[a, a, a, a] = (
+            g_a.norm**4
+            * construct_coulomb_interaction_matrix_element(g_a, g_a, g_a, g_a)
         )
 
         for b, g_b in enumerate(gaussians):
