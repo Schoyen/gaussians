@@ -121,6 +121,10 @@ def test_off_centered_ho():
         tdho_ci.compute_energy(), gauss_ci.compute_energy()
     )
 
+    # TODO: I think these tests are failing due to some rotation stuff (try
+    # adding the angular momentum operator for the Cartesian gaussians).
+    print(tdho_ci.energies)
+    print(gauss_ci.energies)
     np.testing.assert_allclose(tdho_ci.energies, gauss_ci.energies)
 
 
